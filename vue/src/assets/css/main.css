@@ -1,0 +1,74 @@
+:root {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 18px;
+    --mystery-machine-green: #caff4d;
+    --mystery-machine-blue: #8feafc;
+    --mystery-machine-orange: #ff4400;
+
+    --kingston-mansion-black: #0f0919;
+    --kingston-mansion-purple: #5c526d;
+    --kingston-mansion-sky: #00334b;
+    --kingston-mansion-moon: #fefbba;
+    --kingston-mansion-lawn: #6ac2be;
+}
+
+#app {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-areas:
+    "header header"
+    "nav main";
+}
+
+header {
+    grid-area: header;
+    padding: 8px;
+    font-size: 2em;
+    color: var(--kingston-mansion-moon);
+    background-color: var(--kingston-mansion-sky);
+}
+
+.main-nav {
+    grid-area: nav;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--kingston-mansion-black);
+    color: var(--kingston-mansion-purple);
+    text-align: center;
+    text-transform: uppercase;
+    padding: 16px;
+}
+
+.main-nav a, .main-nav a:visited {
+    text-decoration: none;
+    color: var(--kingston-mansion-purple);
+}
+
+.main-nav a:hover {
+    background-color: var(--kingston-mansion-purple);
+    color: var(--kingston-mansion-black);
+}
+
+.main-nav hr {
+    width: 50%;
+    height: 1px;
+    border-width: 0;
+    background-color: var(--kingston-mansion-lawn);
+}
+
+.main-nav-header {
+    color: var(--kingston-mansion-lawn);
+}
+
+body {
+    margin: 0;
+}
+
+main {
+    grid-area: main;
+    height: 100vh;
+    background-image: url("../images/kingston-mansion.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}

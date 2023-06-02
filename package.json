@@ -1,0 +1,11 @@
+{
+  "name": "scooby-doo-tcg",
+  "version": "1.0.0",
+  "description": "Simple Vue App for Scooby Doo TCG collectors",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
