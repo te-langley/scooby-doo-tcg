@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/production-runs")
 @CrossOrigin
 public class ProductionRunController {
-    private ProductionRunDao dao;
+    private final ProductionRunDao dao;
 
     public ProductionRunController(ProductionRunDao dao) {
         this.dao = dao;
