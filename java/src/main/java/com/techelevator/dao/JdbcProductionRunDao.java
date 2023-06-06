@@ -43,9 +43,11 @@ public class JdbcProductionRunDao implements ProductionRunDao {
     public ProductionRun read(int productionRunId) {
         String sql = "select * from " + TABLE + " where id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, productionRunId);
-        if (results.next())
+        if (results.next()) {
             return mapRowToProductionRun(results);
-        else return null;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -57,19 +59,17 @@ public class JdbcProductionRunDao implements ProductionRunDao {
         List<ProductionRun> productionRuns = new ArrayList<>();
         String sql = "select * from " + TABLE + " where product_code = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, productCode);
-        while (results.next())
+        while (results.next()) {
             productionRuns.add(mapRowToProductionRun(results));
+        }
 
         return productionRuns;
     }
 
     @Override
     public boolean exists(int id) {
-        String sql = "SELECT count(*) FROM "+TABLE+" WHERE id = ?";
-        boolean exists = false;
-        int count = jdbcTemplate.queryForObject(sql, new Object[] {id}, Integer.class);
-        exists = count > 0;
-        return exists;
+        String sql = "SELECT count(*) FROM " + TABLE + " WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class) > 0;
     }
 
     @Override

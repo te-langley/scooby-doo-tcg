@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import cardService from '../services/CardService.js';
+import CardService from '../services/CardService.js';
 
 export default {
   name: 'card',
@@ -31,7 +31,7 @@ export default {
     }
   },
   created() {
-    cardService.get(this.cardId).then((response) => {
+    CardService.get(this.cardId).then((response) => {
       this.card = response.data;
     });
   },

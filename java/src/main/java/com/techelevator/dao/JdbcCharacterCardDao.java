@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcCharacterCardDao /*extends AbstractDao<CharacterCard>*/ implements CharacterCardDao {
+public class JdbcCharacterCardDao implements CharacterCardDao {
     private final String TABLE = "character_card";
     private final JdbcTemplate jdbcTemplate;
 
@@ -27,9 +27,11 @@ public class JdbcCharacterCardDao /*extends AbstractDao<CharacterCard>*/ impleme
     public CharacterCard read(int id) {
         String sql = "select * from " + TABLE + " where id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
-        if (results.next())
+        if (results.next()) {
             return mapRowToCharacterCard(results);
-        else return null;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -47,11 +49,8 @@ public class JdbcCharacterCardDao /*extends AbstractDao<CharacterCard>*/ impleme
 
     @Override
     public boolean exists(int id) {
-        String sql = "SELECT count(*) FROM "+TABLE+" WHERE id = ?";
-        boolean exists = false;
-        int count = jdbcTemplate.queryForObject(sql, new Object[] {id}, Integer.class);
-        exists = count > 0;
-        return exists;
+        String sql = "SELECT count(*) FROM " + TABLE + " WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class) > 0;
     }
 
     @Override
@@ -63,7 +62,7 @@ public class JdbcCharacterCardDao /*extends AbstractDao<CharacterCard>*/ impleme
     @Override
     public boolean delete(int id) {
         String sql = "delete from " + TABLE + " where id = ? ";
-        return jdbcTemplate.update(sql, id) == 1;
+        return jdbcTemplate.update(sql, id) > 0;
     }
 
     private CharacterCard mapRowToCharacterCard(SqlRowSet results) {

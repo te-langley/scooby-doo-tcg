@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import cardService from '../services/CardService.js'
-import productionRunService from '../services/ProductionRunService.js'
+import CardService from '../services/CardService.js'
+import ProductionRunService from '../services/ProductionRunService.js'
 export default {
   data() {
     return {
@@ -71,13 +71,13 @@ export default {
     }
   },
   created() {
-    cardService.list().then((response) => {
+    CardService.list().then((response) => {
       this.cards = response.data;
     })
   },
   methods: {
     submitNewProductionRun() {
-      productionRunService.post(this.run).then((response) => {
+      ProductionRunService.post(this.run).then((response) => {
         if (response.status == 200) {
           this.$router.push({ name: 'product-manager' });
         }
