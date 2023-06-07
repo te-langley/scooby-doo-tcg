@@ -6,7 +6,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -43,9 +42,11 @@ public class JdbcProductionRunDao implements ProductionRunDao {
     public ProductionRun read(int productionRunId) {
         String sql = "select * from " + TABLE + " where id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, productionRunId);
-        if (results.next())
+        if (results.next()) {
             return mapRowToModel(results);
-        else return null;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -57,48 +58,25 @@ public class JdbcProductionRunDao implements ProductionRunDao {
         List<ProductionRun> productionRuns = new ArrayList<>();
         String sql = "select * from " + TABLE + " where product_code = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, productCode);
-        while (results.next())
+        while (results.next()) {
             productionRuns.add(mapRowToModel(results));
+        }
 
         return productionRuns;
-    }
-
-    /**
-     * @param id The production run id
-     * @return true if the production run exists, false otherwise
-     */
-    @Override
-    public boolean exists(int id) {
-        String sql = "SELECT count(*) FROM "+TABLE+" WHERE id = ?";
-        int count = jdbcTemplate.queryForObject(sql, new Object[] {id}, Integer.class);
-        return count > 0;
-    }
-
-    /**
-     * @param id The product id
-     * @return true if production runs exist for the product, false otherwise
-     */
-    @Override
-    public boolean existsForProduct(int id) {
-        String sql = "SELECT count(*) FROM "+TABLE+" WHERE product_code = ?";
-        boolean exists = false;
-        int count = jdbcTemplate.queryForObject(sql, new Object[] {id}, Integer.class);
-        exists = count > 0;
-        return exists;
     }
 
     @Override
     public boolean create(ProductionRun run) {
         String sql = "insert into " + TABLE + " (product_code, production_date, quantity, status, notes) values (?,?,?,?,?)";
-        return jdbcTemplate.update(sql, run.getProductCode(), run.getProductionDate(), run.getQuantity(), run.getStatus(), run.getNotes()) == 1;
+        return jdbcTemplate.update(sql, run.getProductCode(), run.getProductionDate(), run.getVolume(), run.getStatus(), run.getNotes()) == 1;
     }
 
     ProductionRun mapRowToModel(SqlRowSet results) {
         ProductionRun productionRun = new ProductionRun();
-        productionRun.setId(results.getInt("id"));
+        productionRun.setRunCode(results.getInt("id"));
         productionRun.setProductCode(results.getInt("product_code"));
         productionRun.setProductionDate(results.getDate("production_date"));
-        productionRun.setQuantity(results.getInt("quantity"));
+        productionRun.setVolume(results.getInt("quantity"));
         productionRun.setStatus(results.getString("status"));
         productionRun.setNotes(results.getString("notes"));
         return productionRun;

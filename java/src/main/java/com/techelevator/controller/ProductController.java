@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/api/scooby-cards")
 @CrossOrigin
 public class ProductController {
-    private ProductDao productDao;
+    private final ProductDao productDao;
 
     public ProductController(ProductDao productDao) {
         this.productDao = productDao;

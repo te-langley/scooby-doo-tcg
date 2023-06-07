@@ -3,32 +3,22 @@ package com.techelevator.model;
 import java.util.Date;
 
 public class ProductionRun {
-    private int id;
+    private int runCode;
     private int productCode;
     private Date productionDate;
-    private int quantity;
+    private int volume;
     private String status;
     private String notes;
 
     public ProductionRun() {
-
     }
 
-    public ProductionRun(int id, int productCode, Date productionDate, int quantity, String status, String notes) {
-        this.id = id;
-        this.productCode = productCode;
-        this.productionDate = productionDate;
-        this.quantity = quantity;
-        this.status = status;
-        this.notes = notes;
+    public int getRunCode() {
+        return runCode;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setRunCode(int runCode) {
+        this.runCode = runCode;
     }
 
     public int getProductCode() {
@@ -47,12 +37,12 @@ public class ProductionRun {
         this.productionDate = productionDate;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getVolume() {
+        return volume;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 
     public String getStatus() {

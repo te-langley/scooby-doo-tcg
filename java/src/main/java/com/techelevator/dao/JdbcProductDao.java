@@ -27,9 +27,11 @@ public class JdbcProductDao implements ProductDao {
     public Product read(int id) {
         String sql = "select * from " + TABLE + " where id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
-        if (results.next())
+        if (results.next()) {
             return mapRowToModel(results);
-        else return null;
+        } else {
+            return null;
+        }
     }
 
     @Override
