@@ -27,21 +27,18 @@ public class JdbcCharacterCardDao implements CharacterCardDao {
     public CharacterCard read(int id) {
         String sql = "select * from " + TABLE + " where id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
-        if (results.next()) {
-            return mapRowToCharacterCard(results);
-        } else {
-            return null;
-        }
+        if (results.next())
+            return mapRowToModel(results);
+        else return null;
     }
 
     @Override
     public List<CharacterCard> readAll() {
         List<CharacterCard> characterCards = new ArrayList<>();
         String sql = "select * from " + TABLE;
-
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()) {
-            characterCards.add(mapRowToCharacterCard(results));
+            characterCards.add(mapRowToModel(results));
         }
 
         return characterCards;
@@ -49,8 +46,11 @@ public class JdbcCharacterCardDao implements CharacterCardDao {
 
     @Override
     public boolean exists(int id) {
-        String sql = "SELECT count(*) FROM " + TABLE + " WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class) > 0;
+        String sql = "SELECT count(*) FROM "+TABLE+" WHERE id = ?";
+        boolean exists;
+        int count = jdbcTemplate.queryForObject(sql, new Object[] {id}, Integer.class);
+        exists = count > 0;
+        return exists;
     }
 
     @Override
@@ -62,10 +62,10 @@ public class JdbcCharacterCardDao implements CharacterCardDao {
     @Override
     public boolean delete(int id) {
         String sql = "delete from " + TABLE + " where id = ? ";
-        return jdbcTemplate.update(sql, id) > 0;
+        return jdbcTemplate.update(sql, id) == 1;
     }
 
-    private CharacterCard mapRowToCharacterCard(SqlRowSet results) {
+    CharacterCard mapRowToModel(SqlRowSet results) {
         CharacterCard characterCard = new CharacterCard();
         characterCard.setId(results.getInt("id"));
         characterCard.setName(results.getString("name"));

@@ -14,12 +14,11 @@
 
 <script>
 import NewCard from '../components/NewCard.vue'
-import CardTable from '../components/CardTable.vue'
-import CardService from '../services/CardService.js'
-
 import NewProductionRun from '../components/NewProductionRun.vue'
 import ProductionRunTable from '../components/ProductionRunTable.vue'
-import ProductionRunService from '../services/ProductionRunService.js'
+import CardTable from '../components/CardTable.vue'
+import cardService from '../services/CardService.js'
+import productionRunService from '../services/ProductionRunService.js'
 
 export default {
   name: 'product-manager',
@@ -36,10 +35,10 @@ export default {
     }
   },
   created() {
-    CardService.list().then((response) => {
+    cardService.list().then((response) => {
       this.cards = response.data;
     });
-    ProductionRunService.list().then((response) => {
+    productionRunService.list().then((response) => {
         this.runs = response.data;
     })
   },

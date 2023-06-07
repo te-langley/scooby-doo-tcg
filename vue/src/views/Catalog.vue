@@ -1,18 +1,18 @@
 <template>
   <div class="catalog-container">
     <router-link
-      v-bind:to="{ name: 'card', params: { id: card.id } }"
+      :to="{ name: 'card', params: { id: card.id } }"
       v-for="card in cards"
-      v-bind:key="card.id"
+      :key="card.id"
     >
-      <card v-bind:card-id="card.id" />
+      <card :card="card" />
     </router-link>
   </div>
 </template>
 
 <script>
 import Card from '../components/Card.vue'
-import CardService from '../services/CardService.js'
+import cardService from '../services/CardService.js'
 
 export default {
   name: '',
@@ -22,12 +22,12 @@ export default {
     }
   },
   created() {
-    CardService.list().then((response) => {
+    cardService.list().then((response) => {
       this.cards = response.data;
     });
   },
   components: {
-    Card
+    Card,
   }
 }
 </script>

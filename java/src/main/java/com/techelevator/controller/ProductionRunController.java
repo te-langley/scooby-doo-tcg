@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/production-runs")
 @CrossOrigin
 public class ProductionRunController {
-    private final ProductionRunDao dao;
+    private ProductionRunDao dao;
 
     public ProductionRunController(ProductionRunDao dao) {
         this.dao = dao;
@@ -25,10 +25,20 @@ public class ProductionRunController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ProductionRun getWithId(@PathVariable int id) {
-        if (dao.exists(id)) {
-            return dao.read(id);
-        } else {
+        ProductionRun result = dao.read(id);
+        if (result == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Production run with id " + id + " not found");
+        } else {
+            return result;
+        }
+    }
+
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    public List<ProductionRun> getForProduct(@PathVariable int id) {
+        if (dao.existsForProduct(id)) {
+            return dao.readForProduct(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Production run(s) for product with id " + id + " not found");
         }
     }
 

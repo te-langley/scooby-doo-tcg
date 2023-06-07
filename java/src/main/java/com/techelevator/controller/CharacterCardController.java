@@ -6,13 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.crypto.spec.ChaCha20ParameterSpec;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/scooby-cards")
 @CrossOrigin
 public class CharacterCardController {
-    private final CharacterCardDao dao;
+    private CharacterCardDao dao;
 
     public CharacterCardController(CharacterCardDao dao) {
         this.dao = dao;

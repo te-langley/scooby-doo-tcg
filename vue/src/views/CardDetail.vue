@@ -1,20 +1,43 @@
 <template>
   <div class="card-details">
-    Card Details
-    
-    <!-- TODO: The card details page should display the card as well as a 
-           table containing all of the production runs for that card. -->
+    <card v-bind:card="card" />
+    <production-run-table :runs="runs" />
   </div>
 </template>
 
 <script>
+import Card from '../components/Card.vue'
+import ProductionRunTable from '../components/ProductionRunTable.vue'
+import productionRunService from '../services/ProductionRunService'
+import cardService from '../services/CardService'
+
 export default {
   name: 'card-detail',
-  props: {
-    card: Object
-  }
+  components: {
+    Card,
+    ProductionRunTable
+  },
+  data() {
+    return {
+      card: {},
+      runs: []
+    }
+  },
+  created() {
+    cardService.get(this.$route.params.id).then((response) => {
+      this.card = response.data;
+    });
+    productionRunService.getForProduct(this.$route.params.id).then((response) => {
+      this.runs = response.data;
+    })
+  },
 }
 </script>
 
 <style>
+.card-details {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
 </style>

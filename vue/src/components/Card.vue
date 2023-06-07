@@ -11,38 +11,21 @@
 </template>
 
 <script>
-import CardService from '../services/CardService.js';
 
 export default {
   name: 'card',
   props: {
-    cardId: Number
-  },
-  data() {
-    return {
-      card: {
-        id: 0,
-        name: '',
-        species: '',
-        occupation: '',
-        catchphrase: '',
-        image: ''
-      },
-    }
-  },
-  created() {
-    CardService.get(this.cardId).then((response) => {
-      this.card = response.data;
-    });
+    card: Object
   },
   computed: {
     imgPath() {
-      if (this.card.image === '') {
-        return require('../assets/images/placeholder.png');
+      let imgFile = ''
+      try {
+        imgFile = require(`../assets/images/${this.card.image}`)
+      } catch {
+        imgFile = require('../assets/images/placeholder.png')
       }
-      else {
-        return require(`../assets/images/${this.card.image}`);
-      }
+      return imgFile
     }
   }
 }
@@ -64,7 +47,7 @@ a {
   border-radius: 10px;
   width: 250px;
   height: 350px;
-  margin: 20px;
+  /* margin: 20px; */
 
   padding: 15px;
 

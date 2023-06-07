@@ -28,4 +28,17 @@ CREATE TABLE production_run (
     notes TEXT
 );
 
+CREATE TABLE instance (
+    serial VARCHAR(6) PRIMARY KEY,
+    product_code INTEGER REFERENCES character_card (id),
+    production_run INTEGER REFERENCES production_run (id),
+    sequence INTEGER,
+    claimed BOOLEAN default false
+);
+
+CREATE TABLE user_instance (
+    user_id SERIAL REFERENCES users (user_id),
+    instance_serial VARCHAR(6) REFERENCES instance (serial)
+);
+
 COMMIT TRANSACTION;

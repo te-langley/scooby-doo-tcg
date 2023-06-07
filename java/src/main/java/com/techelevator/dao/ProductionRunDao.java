@@ -12,7 +12,7 @@ public interface ProductionRunDao {
 
     boolean exists(int id);
 
-    boolean create(int productCode, Date productionDate, int quantity, String status, String notes);
+    boolean existsForProduct(int id);
 
     boolean create(ProductionRun run);
 }

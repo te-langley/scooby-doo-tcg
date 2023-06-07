@@ -28,7 +28,7 @@ public class JdbcProductionRunDao implements ProductionRunDao {
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()) {
-            ProductionRun productionRun = mapRowToProductionRun(results);
+            ProductionRun productionRun = mapRowToModel(results);
             productionRuns.add(productionRun);
         }
 
@@ -43,11 +43,9 @@ public class JdbcProductionRunDao implements ProductionRunDao {
     public ProductionRun read(int productionRunId) {
         String sql = "select * from " + TABLE + " where id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, productionRunId);
-        if (results.next()) {
-            return mapRowToProductionRun(results);
-        } else {
-            return null;
-        }
+        if (results.next())
+            return mapRowToModel(results);
+        else return null;
     }
 
     /**
@@ -59,24 +57,34 @@ public class JdbcProductionRunDao implements ProductionRunDao {
         List<ProductionRun> productionRuns = new ArrayList<>();
         String sql = "select * from " + TABLE + " where product_code = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, productCode);
-        while (results.next()) {
-            productionRuns.add(mapRowToProductionRun(results));
-        }
+        while (results.next())
+            productionRuns.add(mapRowToModel(results));
 
         return productionRuns;
     }
 
+    /**
+     * @param id The production run id
+     * @return true if the production run exists, false otherwise
+     */
     @Override
     public boolean exists(int id) {
-        String sql = "SELECT count(*) FROM " + TABLE + " WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class) > 0;
+        String sql = "SELECT count(*) FROM "+TABLE+" WHERE id = ?";
+        int count = jdbcTemplate.queryForObject(sql, new Object[] {id}, Integer.class);
+        return count > 0;
     }
 
+    /**
+     * @param id The product id
+     * @return true if production runs exist for the product, false otherwise
+     */
     @Override
-    public boolean create(int productCode, Date productionDate, int quantity, String status, String notes) {
-        String sql = "insert into " + TABLE + " (product_code, production_date, quantity, status, notes) values (?,?,?,?,?)";
-
-        return jdbcTemplate.update(sql, productCode, productionDate, quantity, status, notes) == 1;
+    public boolean existsForProduct(int id) {
+        String sql = "SELECT count(*) FROM "+TABLE+" WHERE product_code = ?";
+        boolean exists = false;
+        int count = jdbcTemplate.queryForObject(sql, new Object[] {id}, Integer.class);
+        exists = count > 0;
+        return exists;
     }
 
     @Override
@@ -85,7 +93,7 @@ public class JdbcProductionRunDao implements ProductionRunDao {
         return jdbcTemplate.update(sql, run.getProductCode(), run.getProductionDate(), run.getQuantity(), run.getStatus(), run.getNotes()) == 1;
     }
 
-    private ProductionRun mapRowToProductionRun(SqlRowSet results) {
+    ProductionRun mapRowToModel(SqlRowSet results) {
         ProductionRun productionRun = new ProductionRun();
         productionRun.setId(results.getInt("id"));
         productionRun.setProductCode(results.getInt("product_code"));
