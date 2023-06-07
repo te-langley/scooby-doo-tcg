@@ -42,7 +42,6 @@ export default {
   border-radius: 10px;
   background-color: var(--kingston-mansion-purple);
   color: var(--kingston-mansion-black);
-  /* flex: 1 0 auto; */
 }
 
 .card-table-header {

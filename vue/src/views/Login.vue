@@ -57,7 +57,11 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-            this.$router.push("/");
+            if (this.$route.query.redirect) {
+              this.$router.push(this.$route.query.redirect)
+            } else {
+              this.$router.push('/')
+            }
           }
         })
         .catch(error => {
@@ -92,11 +96,9 @@ form {
   background-color: var(--kingston-mansion-purple);
   color: var(--kingston-mansion-black);
 }
-div.spacer
-{
-    font-size: 0; 
-    height: 10px;
-    line-height: 0;
+div.spacer {
+  font-size: 0;
+  height: 10px;
+  line-height: 0;
 }
-
 </style>

@@ -12,7 +12,7 @@
 
 <script>
 import Card from '../components/Card.vue'
-import cardService from '../services/CardService.js'
+import CardService from '../services/CardService.js'
 
 export default {
   name: '',
@@ -22,7 +22,7 @@ export default {
     }
   },
   created() {
-    cardService.list().then((response) => {
+    CardService.list().then((response) => {
       this.cards = response.data;
     });
   },

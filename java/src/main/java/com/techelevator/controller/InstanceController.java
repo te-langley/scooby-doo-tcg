@@ -11,4 +11,5 @@ public class InstanceController {
     // GETS
     // PUTS
     // POSTS
+        // batch serial generator
 }

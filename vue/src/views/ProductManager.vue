@@ -17,8 +17,8 @@ import NewCard from '../components/NewCard.vue'
 import NewProductionRun from '../components/NewProductionRun.vue'
 import ProductionRunTable from '../components/ProductionRunTable.vue'
 import CardTable from '../components/CardTable.vue'
-import cardService from '../services/CardService.js'
-import productionRunService from '../services/ProductionRunService.js'
+import CardService from '../services/CardService.js'
+import ProductionRunService from '../services/ProductionRunService.js'
 
 export default {
   name: 'product-manager',
@@ -35,10 +35,10 @@ export default {
     }
   },
   created() {
-    cardService.list().then((response) => {
+    CardService.list().then((response) => {
       this.cards = response.data;
     });
-    productionRunService.list().then((response) => {
+    ProductionRunService.list().then((response) => {
         this.runs = response.data;
     })
   },

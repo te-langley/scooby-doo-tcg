@@ -47,7 +47,6 @@ a {
   border-radius: 10px;
   width: 250px;
   height: 350px;
-  /* margin: 20px; */
 
   padding: 15px;
 

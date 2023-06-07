@@ -7,9 +7,10 @@
 
 <script>
 import Card from '../components/Card.vue'
+import CardService from '../services/CardService'
+
 import ProductionRunTable from '../components/ProductionRunTable.vue'
-import productionRunService from '../services/ProductionRunService'
-import cardService from '../services/CardService'
+import ProductionRunService from '../services/ProductionRunService'
 
 export default {
   name: 'card-detail',
@@ -24,10 +25,10 @@ export default {
     }
   },
   created() {
-    cardService.get(this.$route.params.id).then((response) => {
+    CardService.get(this.$route.params.id).then((response) => {
       this.card = response.data;
     });
-    productionRunService.getForProduct(this.$route.params.id).then((response) => {
+    ProductionRunService.getForProduct(this.$route.params.id).then((response) => {
       this.runs = response.data;
     })
   },

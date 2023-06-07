@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import cardService from "../services/CardService.js";
+import CardService from "../services/CardService.js";
 export default {
   name: "new-card",
   data() {
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     saveCard() {
-      cardService.post(this.card).then((response) => {
+      CardService.post(this.card).then((response) => {
         if (response.status == 200) {
           location.reload();
         }
