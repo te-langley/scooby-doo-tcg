@@ -1,7 +1,7 @@
 <template>
   <div class="catalog-container">
     <router-link
-      :to="{ name: 'card', params: { id: card.id } }"
+      :to="{ name: 'card', params: { id: card.productCode } }"
       v-for="card in cards"
       :key="card.id"
     >

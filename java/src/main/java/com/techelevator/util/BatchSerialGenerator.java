@@ -58,9 +58,7 @@ public class BatchSerialGenerator {
     }
 
     private boolean serialIsValid(String serialToCheck) {
-        if (usedSerials.contains(serialToCheck)) return false;
-
-        return true;
+        return !usedSerials.contains(serialToCheck);
     }
 
 

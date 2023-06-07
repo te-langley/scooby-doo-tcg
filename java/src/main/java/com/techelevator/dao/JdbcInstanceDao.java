@@ -1,6 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.CardInstance;
+import com.techelevator.model.Instance;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcCardInstanceDao implements CardInstanceDao {
+public class JdbcInstanceDao implements InstanceDao {
     private final String TABLE = "instance";
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcCardInstanceDao(JdbcTemplate jdbcTemplate) {
+    public JdbcInstanceDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -23,8 +23,8 @@ public class JdbcCardInstanceDao implements CardInstanceDao {
      * @param instance
      * @return
      */
-    public boolean createBatch(List<CardInstance> instances) {
-        for (CardInstance instance : instances) {
+    public boolean createBatch(List<Instance> instances) {
+        for (Instance instance : instances) {
             //insert into instance (serial, product_code, production_run, sequence, claimed) value (?, ?, ?, ?)
         }
         return false;
@@ -46,7 +46,7 @@ public class JdbcCardInstanceDao implements CardInstanceDao {
         return serials;
     }
 
-    CardInstance mapRowToModel(SqlRowSet results) {
+    Instance mapRowToModel(SqlRowSet results) {
         return null;
     }
 }

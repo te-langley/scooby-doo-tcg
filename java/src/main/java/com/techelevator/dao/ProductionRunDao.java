@@ -2,17 +2,14 @@ package com.techelevator.dao;
 
 import com.techelevator.model.ProductionRun;
 
-import java.util.Date;
 import java.util.List;
 
 public interface ProductionRunDao {
-    List<ProductionRun> readAll();
     ProductionRun read(int productionRunId);
-    List<ProductionRun> readForProduct(int characterCardId);
 
-    boolean exists(int id);
+    List<ProductionRun> readAll();
 
-    boolean existsForProduct(int id);
+    List<ProductionRun> readForProduct(int productCode);
 
     boolean create(ProductionRun run);
 }

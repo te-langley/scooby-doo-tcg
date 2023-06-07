@@ -1,39 +1,35 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.CharacterCard;
+import com.techelevator.model.Product;
 
 import java.util.List;
 
-public interface CharacterCardDao {
+public interface ProductDao {
     //==========================================================================
     // CREATE Operations
     //==========================================================================
-    boolean create(CharacterCard card);
+    boolean create(Product product);
 
     //==========================================================================
     // READ Operations
     //==========================================================================
-    /**
-     * @param id
-     * @return character card with given {@code id}
-     */
-    CharacterCard read(int id);
 
     /**
-     * @return all character cards from the data source.
+     * @param id
+     * @return product with given {@code id}
      */
-    List<CharacterCard> readAll();
+    Product read(int productCode);
 
     /**
-     * Checks
-     * @param id
-     * @return
+     * @return all products from the data source.
      */
-    boolean exists(int id);
+    List<Product> readAll();
+
     //==========================================================================
     // UPDATE Operations
     //==========================================================================
-    boolean update(int id, CharacterCard updated);
+    boolean update(int id, Product updated);
+
     //==========================================================================
     // DELETE Operations
     //==========================================================================
