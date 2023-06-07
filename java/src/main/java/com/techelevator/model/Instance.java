@@ -1,6 +1,6 @@
 package com.techelevator.model;
 
-public class CardInstance {
+public class Instance {
     /**
      * Randomly generate 6 character string that uniquely identifies the instance.
      */

@@ -1,19 +1,19 @@
 package com.techelevator.model;
 
-public class CharacterCard {
-    private int id;
+public class Product {
+    private int productCode;
     private String name;
     private String species;
     private String occupation;
     private String catchphrase;
     private String image;
 
-    public int getId() {
-        return id;
+    public int getProductCode() {
+        return productCode;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProductCode(int productCode) {
+        this.productCode = productCode;
     }
 
     public String getName() {

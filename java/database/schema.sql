@@ -10,7 +10,7 @@ CREATE TABLE users (
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
-CREATE TABLE character_card (
+CREATE TABLE product (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     species VARCHAR(50),
@@ -21,7 +21,7 @@ CREATE TABLE character_card (
 
 CREATE TABLE production_run (
     id SERIAL PRIMARY KEY,
-    product_code INTEGER REFERENCES character_card (id),
+    product_code INTEGER REFERENCES product (id),
     production_date DATE NOT NULL,
     quantity INTEGER,
     status VARCHAR(20),
@@ -30,7 +30,7 @@ CREATE TABLE production_run (
 
 CREATE TABLE instance (
     serial VARCHAR(6) PRIMARY KEY,
-    product_code INTEGER REFERENCES character_card (id),
+    product_code INTEGER REFERENCES product (id),
     production_run INTEGER REFERENCES production_run (id),
     sequence INTEGER,
     claimed BOOLEAN default false
