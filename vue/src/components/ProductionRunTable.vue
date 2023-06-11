@@ -15,11 +15,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="run in runs" :key="run.id">
-          <td>{{ run.id }}</td>
+        <tr v-for="run in runs" :key="run.runCode">
+          <td>{{ run.runCode }}</td>
           <td>{{ run.productCode }}</td>
           <td>{{ run.productionDate }}</td>
-          <td>{{ run.quantity }}</td>
+          <td>{{ run.volume }}</td>
           <td>{{ run.status }}</td>
           <td>{{ run.notes }}</td>
         </tr>
@@ -45,7 +45,6 @@ export default {
   border-radius: 10px;
   background-color: var(--kingston-mansion-purple);
   color: var(--kingston-mansion-black);
-  /* flex: 1 0 auto; */
 }
 
 .production-run-table-header {

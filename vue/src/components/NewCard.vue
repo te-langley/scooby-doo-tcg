@@ -62,9 +62,9 @@ export default {
     saveCard() {
       CardService.post(this.card).then((response) => {
         if (response.status == 200) {
-          location.reload();
+            this.$emit('update-cards');
         }
-      })
+      });
     }
   }
 }

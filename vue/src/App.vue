@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <head>
-      <title>Testing...</title>
-    </head>
     <header>Scooby Doo TCG</header>
     <nav class="main-nav">
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>

@@ -1,24 +1,31 @@
 <template>
   <div class="product-manager">
+    <nav class="product-manager-nav">
+      <ul>
+        <li><a :class="{active:showCards}" @click="showCards = !showCards">Products</a></li>
+        <li><a :class="{active:!showCards}" @click="showCards = !showCards">Runs</a></li>
+      </ul>
+    </nav>
     <!-- TODO: Toggle between operations divs. -->
-    <div class="card-operations">
-      <new-card />
+    <div class="card-operations" v-if="showCards">
+      <new-card v-on:update-cards="refreshCards" />
       <card-table :cards="cards" />
     </div>
-    <div class="production-runs-operations">
+    <div class="production-runs-operations" v-else>
       <new-production-run />
-      <production-run-table :runs="runs"/>
+      <production-run-table :runs="$store.state.runs" />
     </div>
   </div>
 </template>
 
 <script>
 import NewCard from '../components/NewCard.vue'
-import NewProductionRun from '../components/NewProductionRun.vue'
-import ProductionRunTable from '../components/ProductionRunTable.vue'
 import CardTable from '../components/CardTable.vue'
 import CardService from '../services/CardService.js'
-import ProductionRunService from '../services/ProductionRunService.js'
+
+import NewProductionRun from '../components/NewProductionRun.vue'
+import ProductionRunTable from '../components/ProductionRunTable.vue'
+
 
 export default {
   name: 'product-manager',
@@ -31,17 +38,20 @@ export default {
   data() {
     return {
       cards: [],
-      runs: []
+      showCards: true,
     }
   },
   created() {
-    CardService.list().then((response) => {
-      this.cards = response.data;
-    });
-    ProductionRunService.list().then((response) => {
-        this.runs = response.data;
-    })
+    this.refreshCards();
+    this.$store.dispatch('REFRESH_RUNS');
   },
+  methods: {
+    refreshCards() {
+      CardService.list().then((response) => {
+        this.cards = response.data;
+      });
+    }
+  }
 }
 </script>
 
@@ -66,4 +76,31 @@ export default {
   gap: 10px;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
 </style>

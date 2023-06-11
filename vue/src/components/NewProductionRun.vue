@@ -1,7 +1,7 @@
 <template>
   <div class="new-production-run-container">
     <div class="new-production-run-header">Add New Production Run</div>
-    <form>
+    <form v-on:submit.prevent="submitNewProductionRun()">
       <!-- Id -->
       <!-- TODO: Display next ID? -->
 
@@ -9,8 +9,8 @@
       <label>
         <span>Product Code <span class="required">*</span></span>
         <select class="select-field" v-model="run.productCode">
-          <option v-for="card in cards" :key="card.id" :value="card.id">
-            {{ card.id }} ({{ card.name }})
+          <option v-for="card in cards" :key="card.productCode" :value="card.productCode">
+            {{ card.productCode }} ({{ card.name }})
           </option>
         </select>
       </label>
@@ -46,7 +46,7 @@
 
       <!-- Submit -->
       <label>
-        <button type="submit" v-on:click="submitNewProductionRun()">
+        <button type="submit">
           Submit
         </button>
       </label>
@@ -64,7 +64,7 @@ export default {
       run: {
         productCode: '',
         productionDate: '',
-        quantity: '',
+        volume: '',
         status: '',
         notes: ''
       }
@@ -79,7 +79,7 @@ export default {
     submitNewProductionRun() {
       ProductionRunService.post(this.run).then((response) => {
         if (response.status == 200) {
-          this.$router.push({ name: 'product-manager' });
+          this.$store.dispatch('REFRESH_RUNS')
         }
       })
     }

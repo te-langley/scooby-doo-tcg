@@ -13,8 +13,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="card in cards" :key="card.id">
-          <td>{{ card.id }}</td>
+        <tr v-for="card in cards" :key="card.productCode">
+          <td>{{ card.productCode }}</td>
           <td>{{ card.name }}</td>
           <td>{{ card.occupation }}</td>
           <td>{{ card.species }}</td>
