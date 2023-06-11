@@ -8,7 +8,7 @@
       <!-- TODO: Hide for non-admin users. -->
       <div class="admin">
         <div class="main-nav-header">Admin</div>
-        <router-link v-bind:to="{ name: 'product-manager' }">
+        <router-link v-bind:to="{ name: 'admin' }">
           Product Manager
         </router-link>
         <hr />

@@ -28,7 +28,7 @@ import ProductionRunTable from '../components/ProductionRunTable.vue'
 
 
 export default {
-  name: 'product-manager',
+  name: 'admin',
   components: {
     ProductionRunTable,
     NewCard,
