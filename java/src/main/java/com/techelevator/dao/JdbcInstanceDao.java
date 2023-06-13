@@ -46,6 +46,11 @@ public class JdbcInstanceDao implements InstanceDao {
         return serials;
     }
 
+    @Override
+    public boolean create(Instance instance) {
+        return false;
+    }
+
     Instance mapRowToModel(SqlRowSet results) {
         return null;
     }

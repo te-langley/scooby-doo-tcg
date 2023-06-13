@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <head>
-      <title>Testing...</title>
-    </head>
     <header>Scooby Doo TCG</header>
     <nav class="main-nav">
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>
@@ -11,7 +8,7 @@
       <!-- TODO: Hide for non-admin users. -->
       <div class="admin">
         <div class="main-nav-header">Admin</div>
-        <router-link v-bind:to="{ name: 'product-manager' }">
+        <router-link v-bind:to="{ name: 'admin' }">
           Product Manager
         </router-link>
         <hr />

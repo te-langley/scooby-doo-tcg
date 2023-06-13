@@ -10,11 +10,14 @@
     --kingston-mansion-sky: #00334b;
     --kingston-mansion-moon: #fefbba;
     --kingston-mansion-lawn: #6ac2be;
+    
 }
 
 #app {
     display: grid;
+    height: 100vh;
     grid-template-columns: 1fr 5fr;
+    grid-template-rows: 8% 92%;
     grid-template-areas:
     "header header"
     "nav main";
@@ -66,9 +69,10 @@ body {
 
 main {
     grid-area: main;
-    height: 100vh;
+    max-width: 100%;
     background-image: url("../images/kingston-mansion.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+    overflow-y: scroll;
 }

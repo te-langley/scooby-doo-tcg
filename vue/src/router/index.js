@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
-import ProductManager from '../views/ProductManager.vue'
+import Admin from '../views/Admin.vue'
 import Catalog from '../views/Catalog.vue'
 import CardDetail from '../views/CardDetail.vue'
 import store from '../store/index'
@@ -73,9 +73,9 @@ const router = new Router({
             }
         },
         {
-            path: "/product-manager",
-            name: "product-manager",
-            component: ProductManager,
+            path: "/admin",
+            name: "admin",
+            component: Admin,
             meta: {
                 requiresAuth: true
             }
