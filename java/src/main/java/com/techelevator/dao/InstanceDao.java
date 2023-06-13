@@ -8,4 +8,6 @@ public interface InstanceDao {
     boolean createBatch(List<Instance> instance);
 
     List<String> getUsedSerials();
+
+    boolean create(Instance instance);
 }

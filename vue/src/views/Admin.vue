@@ -31,8 +31,8 @@ export default {
   name: 'admin',
   components: {
     ProductionRunTable,
-    NewCard,
     NewProductionRun,
+    NewCard,
     CardTable
   },
   data() {
