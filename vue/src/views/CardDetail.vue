@@ -30,7 +30,7 @@ export default {
     });
     ProductionRunService.getForProduct(this.$route.params.id).then((response) => {
       this.runs = response.data;
-    })
+    });
   },
 }
 </script>

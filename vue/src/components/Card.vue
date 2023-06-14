@@ -37,11 +37,6 @@ export default {
   flex-direction: column;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
 .card {
   border: 2px solid black;
   border-radius: 10px;

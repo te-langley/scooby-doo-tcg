@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="run in runs" :key="run.runCode">
+        <tr v-for="run in runs" :key="run.runCode" @click="openDetail(run)">
           <td>{{ run.runCode }}</td>
           <td>{{ run.productCode }}</td>
           <td>{{ run.productionDate }}</td>
@@ -33,7 +33,12 @@
 export default {
   name: 'production-run-table',
   props: {
-      runs: Array
+    runs: Array
+  },
+  methods: {
+      openDetail(run) {
+          this.$router.push({ name: 'run', params: { id: run.runCode } });
+      }
   }
 }
 </script>

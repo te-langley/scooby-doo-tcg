@@ -62,7 +62,7 @@ export default {
     saveCard() {
       CardService.post(this.card).then((response) => {
         if (response.status == 200) {
-            this.$emit('update-cards');
+            this.$emit('update-products');
         }
       });
     }
