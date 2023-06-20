@@ -16,5 +16,8 @@ export default {
     },
     post(run) {
         return http.post('/production-runs', run)
+    },
+    updateStatus(id, run) {
+        return http.put(`/production-runs/${id}`, run)
     }
 }

@@ -35,4 +35,9 @@ public class ProductionRunController {
     public boolean post(@RequestBody ProductionRun run) {
         return productionRunDao.create(run);
     }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public boolean put(@RequestBody ProductionRun run) {
+        return productionRunDao.update(run);
+    }
 }

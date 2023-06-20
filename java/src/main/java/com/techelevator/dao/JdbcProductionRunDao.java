@@ -71,6 +71,13 @@ public class JdbcProductionRunDao implements ProductionRunDao {
         return jdbcTemplate.update(sql, run.getProductCode(), run.getProductionDate(), run.getVolume(), run.getStatus(), run.getNotes()) == 1;
     }
 
+    @Override
+    public boolean update(ProductionRun run) {
+        String sql = "update " + TABLE + " set production_date = ?, quantity = ?, status = ?, notes = ? WHERE id = ?";
+        return false;
+    }
+
+
     ProductionRun mapRowToModel(SqlRowSet results) {
         ProductionRun productionRun = new ProductionRun();
         productionRun.setRunCode(results.getInt("id"));

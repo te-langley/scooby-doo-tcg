@@ -8,11 +8,11 @@ public class Instance {
     /**
      * The product ID.
      */
-    private String productCode;
+    private int productCode;
     /**
      * The production run ID.
      */
-    private String productionRun;
+    private int productionRun;
     /**
      * This instance's order in the production sequence.
      */
@@ -30,19 +30,19 @@ public class Instance {
         this.serial = serial;
     }
 
-    public String getProductCode() {
+    public int getProductCode() {
         return productCode;
     }
 
-    public void setProductCode(String productCode) {
+    public void setProductCode(int productCode) {
         this.productCode = productCode;
     }
 
-    public String getProductionRun() {
+    public int getProductionRun() {
         return productionRun;
     }
 
-    public void setProductionRun(String productionRun) {
+    public void setProductionRun(int productionRun) {
         this.productionRun = productionRun;
     }
 

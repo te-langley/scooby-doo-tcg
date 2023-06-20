@@ -9,7 +9,11 @@
       <label>
         <span>Product Code <span class="required">*</span></span>
         <select class="select-field" v-model="run.productCode">
-          <option v-for="card in cards" :key="card.productCode" :value="card.productCode">
+          <option
+            v-for="card in cards"
+            :key="card.productCode"
+            :value="card.productCode"
+          >
             {{ card.productCode }} ({{ card.name }})
           </option>
         </select>
@@ -24,7 +28,7 @@
       <!-- Quantity -->
       <label>
         <span>Quantity <span class="required">*</span></span>
-        <input type="number" class="input-field" v-model="run.quantity" />
+        <input type="number" class="input-field" v-model="run.volume" />
       </label>
 
       <!-- Status -->
@@ -46,9 +50,7 @@
 
       <!-- Submit -->
       <label>
-        <button type="submit">
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </label>
     </form>
   </div>
@@ -58,6 +60,7 @@
 import CardService from '../services/CardService.js'
 import ProductionRunService from '../services/ProductionRunService.js'
 export default {
+  name: 'new-production-run',
   data() {
     return {
       cards: [],
@@ -73,7 +76,7 @@ export default {
   created() {
     CardService.list().then((response) => {
       this.cards = response.data;
-    })
+    });
   },
   methods: {
     submitNewProductionRun() {

@@ -12,4 +12,6 @@ public interface ProductionRunDao {
     List<ProductionRun> readForProduct(int productCode);
 
     boolean create(ProductionRun run);
+
+    boolean update(ProductionRun run);
 }

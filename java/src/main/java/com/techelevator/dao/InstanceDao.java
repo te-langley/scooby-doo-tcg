@@ -2,12 +2,17 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Instance;
 
-import java.util.List;
-
 public interface InstanceDao {
-    boolean createBatch(List<Instance> instance);
-
-    List<String> getUsedSerials();
 
     boolean create(Instance instance);
+
+    Instance read(String serial);
+
+    Instance readAll();
+
+    boolean contains(String proposedSerial);
+
+    boolean unlock(String serial);
+
+    boolean delete(String serial);
 }

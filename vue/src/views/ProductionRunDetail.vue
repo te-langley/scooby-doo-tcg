@@ -5,25 +5,27 @@
       <production-run :run="run" />
     </div>
     <div class="actions">
-      <button>Cancel</button>
-      <button>Accept</button>
-      <button disabled="disabled">Complete</button>
+      <button v-if="canCancelRun" @click="cancelRun">Cancel</button>
+      <button v-if="canAcceptRun" @click="acceptRun">Accept</button>
+      <button v-if="canCompleteRun" @click="completeRun">Complete</button>
     </div>
   </div>
 </template>
 
 <script>
 import Card from '../components/Card.vue'
-import ProductionRun from '../components/ProductionRun.vue'
-
 import CardService from '../services/CardService'
+
+import ProductionRun from '../components/ProductionRun.vue'
 import ProductionRunService from '../services/ProductionRunService'
+
+import InstanceService from '../services/InstanceService'
 
 export default {
   name: 'run-detail',
   components: {
     Card,
-    ProductionRun
+    ProductionRun,
   },
   data() {
     return {
@@ -39,23 +41,59 @@ export default {
       });
     });
   },
+  computed: {
+    canCancelRun() {
+      if (this.run.status === 'In Progress' || this.run.status === 'Pending') {
+        return true;
+      }
+      return false;
+    },
+    canAcceptRun() {
+      if (this.run.status === 'Pending') {
+        return true;
+      }
+      return false;
+    },
+    canCompleteRun() {
+      if (this.run.status === 'In Progress') {
+        return true;
+      }
+      return false;
+    }
+  },
+  methods: {
+    cancelRun() {
+      // TODO: update status to "Canceled"
+    },
+    acceptRun() {
+      // TODO: update run status to "In Progress"
+    //   ProductionRunService.updateStatus(this.run.id, this.run);
+      // TODO: generate instances
+      InstanceService.createInstances(this.run);
+    },
+    completeRun() {
+      // TODO: update status to "Completed"
+    }
+  }
 }
 </script>
 
 <style>
 .run-detail-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .run-detail-container .info {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
 }
 
 .run-detail-container .actions {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
 }
 </style>
