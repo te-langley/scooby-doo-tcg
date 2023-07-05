@@ -1,11 +1,11 @@
 package com.techelevator.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ProductionRun {
     private int runCode;
     private int productCode;
-    private Date productionDate;
+    private LocalDate productionDate;
     private int volume;
     private String status;
     private String notes;
@@ -29,11 +29,11 @@ public class ProductionRun {
         this.productCode = productCode;
     }
 
-    public Date getProductionDate() {
+    public LocalDate getProductionDate() {
         return productionDate;
     }
 
-    public void setProductionDate(Date productionDate) {
+    public void setProductionDate(LocalDate productionDate) {
         this.productionDate = productionDate;
     }
 

@@ -17,7 +17,7 @@ export default {
     post(run) {
         return http.post('/production-runs', run)
     },
-    updateStatus(id, run) {
-        return http.put(`/production-runs/${id}`, run)
+    updateStatus(id, status) {
+        return http.put(`/production-runs/${id}`, status, { headers: { 'Content-Type': 'text/plain' } })
     }
 }

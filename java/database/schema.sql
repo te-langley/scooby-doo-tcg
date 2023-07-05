@@ -7,6 +7,7 @@ CREATE TABLE users (
 	username varchar(50) NOT NULL UNIQUE,
 	password_hash varchar(200) NOT NULL,
 	role varchar(50) NOT NULL,
+	created DATE DEFAULT CURRENT_DATE,
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
@@ -31,14 +32,22 @@ CREATE TABLE production_run (
 CREATE TABLE instance (
     serial VARCHAR(6) PRIMARY KEY,
     product_code INTEGER REFERENCES product (id),
-    production_run INTEGER REFERENCES production_run (id),
+    production_run INTEGER,
     sequence INTEGER,
-    claimed BOOLEAN default false
+    claimed BOOLEAN default false,
+    CONSTRAINT fk_production_run FOREIGN KEY(production_run) REFERENCES production_run (id)
 );
 
 CREATE TABLE user_instance (
     user_id SERIAL REFERENCES users (user_id),
     instance_serial VARCHAR(6) REFERENCES instance (serial)
+);
+
+CREATE TABLE instance_history (
+    instance_serial VARCHAR(6) REFERENCES instance (serial),
+    user_id SERIAL REFERENCES users (user_id),
+    claimed BOOLEAN NOT NULL,
+    change_date DATE DEFAULT CURRENT_DATE
 );
 
 COMMIT TRANSACTION;

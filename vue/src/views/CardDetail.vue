@@ -1,12 +1,12 @@
 <template>
   <div class="card-details">
-    <card v-bind:card="card" />
+    <card :card="card" />
     <production-run-table :runs="runs" />
   </div>
 </template>
 
 <script>
-import Card from '../components/Card.vue'
+import Card from '../components/info-cards/ProductInfo.vue'
 import CardService from '../services/CardService'
 
 import ProductionRunTable from '../components/ProductionRunTable.vue'

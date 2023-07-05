@@ -8,6 +8,7 @@ import Admin from '../views/Admin.vue'
 import Catalog from '../views/Catalog.vue'
 import CardDetail from '../views/CardDetail.vue'
 import ProductionRunDetail from '../views/ProductionRunDetail.vue'
+import Instance from '../views/Instance.vue'
 import store from '../store/index'
 
 Vue.use(Router)
@@ -77,6 +78,15 @@ const router = new Router({
             path: '/run/:id',
             name: 'run',
             component: ProductionRunDetail,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        // TODO: The serial should not be part of the URL...
+        {
+            path: '/instance/:serial',
+            name: 'instance',
+            component: Instance,
             meta: {
                 requiresAuth: true
             }

@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import Card from '../components/Card.vue'
+import Card from '../components/info-cards/ProductInfo.vue'
 import CardService from '../services/CardService'
 
-import ProductionRun from '../components/ProductionRun.vue'
+import ProductionRun from '../components/info-cards/RunInfo.vue'
 import ProductionRunService from '../services/ProductionRunService'
 
 import InstanceService from '../services/InstanceService'
@@ -34,12 +34,7 @@ export default {
     }
   },
   created() {
-    ProductionRunService.get(this.$route.params.id).then((response) => {
-      this.run = response.data;
-      CardService.get(this.run.productCode).then((response) => {
-        this.card = response.data;
-      });
-    });
+    this.getRun();
   },
   computed: {
     canCancelRun() {
@@ -62,17 +57,23 @@ export default {
     }
   },
   methods: {
+    getRun() {
+      ProductionRunService.get(this.$route.params.id).then((response) => {
+        this.run = response.data;
+        CardService.get(this.run.productCode).then((response) => {
+          this.card = response.data;
+        });
+      });
+    },
     cancelRun() {
-      // TODO: update status to "Canceled"
+      ProductionRunService.updateStatus(this.$route.params.id, 'Canceled').then(() => { this.getRun(); });
     },
     acceptRun() {
-      // TODO: update run status to "In Progress"
-    //   ProductionRunService.updateStatus(this.run.id, this.run);
-      // TODO: generate instances
+      ProductionRunService.updateStatus(this.$route.params.id, 'In Progress').then(() => { this.getRun(); });
       InstanceService.createInstances(this.run);
     },
     completeRun() {
-      // TODO: update status to "Completed"
+      ProductionRunService.updateStatus(this.$route.params.id, 'Completed').then(() => { this.getRun(); });
     }
   }
 }

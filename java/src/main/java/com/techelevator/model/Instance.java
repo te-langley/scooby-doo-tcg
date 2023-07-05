@@ -62,4 +62,22 @@ public class Instance {
         this.claimed = claimed;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Instance instance = (Instance) obj;
+
+        if (this == obj) {
+            return true;
+        }
+
+//        if (obj == null || getClass() != obj.getClass()) {
+//            return false;
+//        }
+
+        return this.serial.equals(instance.getSerial()) &&
+                this.productCode == instance.getProductCode() &&
+                this.productionRun == instance.getProductionRun() &&
+                this.sequence == instance.getSequence() &&
+                this.claimed == instance.isClaimed();
+    }
 }

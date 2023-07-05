@@ -20,8 +20,10 @@ VALUES
 (4, '2023-04-20', 100, 'Completed', ''),
 (5, '2023-04-20', 100, 'Completed', ''),
 (6, '2023-04-20', 100, 'Canceled', 'Nobody likes Scrappy Doo'),
-(1, '2023-09-13', 25, 'In Progress', 'Special Release'),
-(2, '2023-09-13', 25, 'In Progress', 'Special Release'),
-(3, '2023-09-13', 25, 'In Progress', 'Special Release');
+(1, '2023-09-13', 25, 'In Progress', 'Special Release (Wave 1)'),
+(2, '2023-09-13', 25, 'In Progress', 'Special Release (Wave 1)'),
+(3, '2023-09-13', 25, 'In Progress', 'Special Release (Wave 1)'),
+(4, '2024-01-01', 25, 'Pending', 'Special Release (Wave 2)'),
+(5, '2023-01-01', 25, 'Pending', 'Special Release (Wave 2)');
 
 COMMIT TRANSACTION;

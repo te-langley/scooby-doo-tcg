@@ -2,9 +2,12 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,19 +15,36 @@ import java.util.List;
 public class JdbcProductDao implements ProductDao {
     private final String TABLE = "product";
     private final JdbcTemplate jdbcTemplate;
+    private final GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
     public JdbcProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public boolean create(Product product) {
+    public Product createProduct(Product product) {
         String sql = "insert into " + TABLE + " (name, species, occupation, catchphrase, image) values (?,?,?,?,?)";
-        return jdbcTemplate.update(sql, product.getName(), product.getSpecies(), product.getOccupation(), product.getCatchphrase(), product.getImage()) == 1;
+
+        jdbcTemplate.update(conn -> {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setString(2, product.getSpecies());
+            preparedStatement.setString(3, product.getOccupation());
+            preparedStatement.setString(4, product.getCatchphrase());
+            preparedStatement.setString(5, product.getImage());
+
+            return preparedStatement;
+        }, generatedKeyHolder);
+
+        Integer id = (Integer) generatedKeyHolder.getKeys().get("id");
+        product.setProductCode(id);
+
+        return product;
     }
 
     @Override
-    public Product read(int id) {
+    public Product getProductById(int id) {
         String sql = "select * from " + TABLE + " where id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         if (results.next()) {
@@ -35,27 +55,32 @@ public class JdbcProductDao implements ProductDao {
     }
 
     @Override
-    public List<Product> readAll() {
+    public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         String sql = "select * from " + TABLE;
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()) {
             products.add(mapRowToModel(results));
         }
-
         return products;
     }
 
     @Override
-    public boolean update(int id, Product updated) {
+    public Product updateProduct(Product product) {
         String sql = "update " + TABLE + " set name = ?, species = ?, occupation = ?, catchphrase = ? where id = ? ";
-        return jdbcTemplate.update(sql, updated.getName(), updated.getOccupation(), updated.getSpecies(), updated.getCatchphrase(), id) == 1;
-    }
+        int rowsUpdated = jdbcTemplate.update(sql,
+                product.getName(),
+                product.getSpecies(),
+                product.getOccupation(),
+                product.getCatchphrase(),
+                product.getProductCode());
 
-    @Override
-    public boolean delete(int id) {
-        String sql = "delete from " + TABLE + " where id = ? ";
-        return jdbcTemplate.update(sql, id) == 1;
+        Product updatedProduct = null;
+        if (rowsUpdated > 0) {
+            updatedProduct = getProductById(product.getProductCode());
+        }
+
+        return updatedProduct;
     }
 
     Product mapRowToModel(SqlRowSet results) {

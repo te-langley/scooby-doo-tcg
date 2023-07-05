@@ -5,6 +5,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class JdbcInstanceDao implements InstanceDao {
     private final String TABLE = "instance";
@@ -15,14 +18,19 @@ public class JdbcInstanceDao implements InstanceDao {
     }
 
     @Override
-    public boolean create(Instance instance) {
+    public int create(Instance instance) {
         String sql = "insert into " + TABLE + " (serial, product_code, production_run, sequence, claimed) values (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, instance.getSerial(), instance.getProductCode(), instance.getProductionRun(), instance.getSequence(), instance.isClaimed()) == 1;
+        return jdbcTemplate.update(sql, instance.getSerial(), instance.getProductCode(), instance.getProductionRun(), instance.getSequence(), instance.isClaimed());
     }
 
+    /**
+     * Gets the {@code Instance} for the given {@code serial}.
+     * @param serial
+     * @return
+     */
     @Override
     public Instance read(String serial) {
-        String sql = "select (serial, product_code, production_run, sequence, claimed) from instance where serial = ?";
+        String sql = "select serial, product_code, production_run, sequence, claimed from instance where serial = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, serial);
         if (results.next()) {
             return mapRowToModel(results);
@@ -32,15 +40,27 @@ public class JdbcInstanceDao implements InstanceDao {
     }
 
     @Override
-    public Instance readAll() {
-        String sql = "";
-        return null;
+    public List<Instance> readAll() {
+        List<Instance> instances = new ArrayList<>();
+        String sql = "select * from instance";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()) {
+            instances.add(mapRowToModel(results));
+        }
+            return instances;
     }
 
     @Override
     public boolean contains(String serial) {
         String sql = "select count(*) from " + TABLE + " where serial = ?";
         int count = jdbcTemplate.queryForObject(sql, new Object[]{serial}, Integer.class);
+        return count > 0;
+    }
+
+    @Override
+    public boolean alreadyGeneratedForRun(int runCode) {
+        String sql = "select count(*) from " + TABLE + " where production_run = ?";
+        int count = jdbcTemplate.queryForObject(sql, new Object[]{runCode}, Integer.class);
         return count > 0;
     }
 
@@ -54,6 +74,11 @@ public class JdbcInstanceDao implements InstanceDao {
     public boolean delete(String serial) {
         String sql = "delete from " + TABLE + " where serial = ?";
         return jdbcTemplate.update(sql, serial) == 1;
+    }
+
+    @Override
+    public boolean delete(int runCode) {
+        return false;
     }
 
     Instance mapRowToModel(SqlRowSet results) {

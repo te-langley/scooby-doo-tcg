@@ -18,26 +18,28 @@ public class ProductionRunController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<ProductionRun> getAll() {
-        return productionRunDao.readAll();
+        return productionRunDao.getAllProductionRuns();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ProductionRun getWithId(@PathVariable int id) {
-        return productionRunDao.read(id);
+        return productionRunDao.getProductionRunById(id);
     }
 
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     public List<ProductionRun> getForProduct(@PathVariable int id) {
-        return productionRunDao.readForProduct(id);
+        return productionRunDao.getProductionRunsByProductCode(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public boolean post(@RequestBody ProductionRun run) {
-        return productionRunDao.create(run);
+    public ProductionRun post(@RequestBody ProductionRun run) {
+        return productionRunDao.createProductionRun(run);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public boolean put(@RequestBody ProductionRun run) {
-        return productionRunDao.update(run);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ProductionRun updateStatus(@PathVariable int id, @RequestBody String status) {
+        ProductionRun run = productionRunDao.getProductionRunById(id);
+        run.setStatus(status);
+        return productionRunDao.updateProductionRunStatus(run);
     }
 }

@@ -88,7 +88,6 @@
             <artifactId>commons-text</artifactId>
             <version>1.6</version>
         </dependency>
-        <!-- Thanks for using https://jar-download.com -->
 
     </dependencies>
 

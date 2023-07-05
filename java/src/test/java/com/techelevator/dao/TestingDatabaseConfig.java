@@ -60,6 +60,7 @@ public class TestingDatabaseConfig {
 
         ScriptUtils.executeSqlScript(dataSource.getConnection(), new FileSystemResource("database/schema.sql"));
         ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("test-data.sql"));
+        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("test-data-instances.sql"));
 
         ds = dataSource;
         return ds;

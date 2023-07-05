@@ -8,7 +8,7 @@ public interface ProductDao {
     //==========================================================================
     // CREATE Operations
     //==========================================================================
-    boolean create(Product product);
+    Product createProduct(Product product);
 
     //==========================================================================
     // READ Operations
@@ -18,21 +18,20 @@ public interface ProductDao {
      * @param id
      * @return product with given {@code id}
      */
-    Product read(int productCode);
+    Product getProductById(int productCode);
 
     /**
      * @return all products from the data source.
      */
-    List<Product> readAll();
+    List<Product> getAllProducts();
 
     //==========================================================================
     // UPDATE Operations
     //==========================================================================
-    boolean update(int id, Product updated);
+    Product updateProduct(Product updated);
 
     //==========================================================================
     // DELETE Operations
     //==========================================================================
-    boolean delete(int id);
 
 }

@@ -1,10 +1,15 @@
 <template>
-  <div class="home"> Not yet implemented.</div>
+    <unlocker />
 </template>
 
 <script>
-export default {
+import Unlocker from '../components/Unlocker.vue'
 
+export default {
+    name: 'home',
+    components: {
+        Unlocker
+    }
 }
 </script>
 

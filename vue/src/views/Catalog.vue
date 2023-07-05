@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Card from '../components/Card.vue'
+import Card from '../components/info-cards/ProductInfo.vue'
 import CardService from '../services/CardService.js'
 
 export default {

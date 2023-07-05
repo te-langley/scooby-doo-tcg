@@ -50,7 +50,7 @@ export default new Vuex.Store({
             ProductionRunService.list().then((response) => {
                 context.commit('REFRESH_RUNS', response.data);
             })
-        }
+        },
 
     }
 })
