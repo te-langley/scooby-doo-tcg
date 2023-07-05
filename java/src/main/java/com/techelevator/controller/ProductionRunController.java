@@ -16,6 +16,10 @@ public class ProductionRunController {
         this.productionRunDao = productionRunDao;
     }
 
+    //==========================================================================
+    // PUBLIC
+    //==========================================================================
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<ProductionRun> getAll() {
         return productionRunDao.getAllProductionRuns();
@@ -30,6 +34,10 @@ public class ProductionRunController {
     public List<ProductionRun> getForProduct(@PathVariable int id) {
         return productionRunDao.getProductionRunsByProductCode(id);
     }
+
+    //==========================================================================
+    // INTERNAL
+    //==========================================================================
 
     @RequestMapping(method = RequestMethod.POST)
     public ProductionRun post(@RequestBody ProductionRun run) {

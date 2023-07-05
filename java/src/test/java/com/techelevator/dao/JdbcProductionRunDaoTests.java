@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class JdbcProductionRunDaoTests extends BaseDaoTests {
         ProductionRun dbRun = prDao.getProductionRunById(1);
         Assert.assertEquals(dbRun.getRunCode(), 1);
         Assert.assertEquals(dbRun.getProductCode(), 1);
-        Assert.assertEquals(dbRun.getProductionDate(), LocalDate.of(2023,04,20));
+        Assert.assertEquals(dbRun.getProductionDate(), LocalDate.of(2023, 04, 20));
         Assert.assertEquals(dbRun.getVolume(), 100);
         Assert.assertEquals(dbRun.getStatus(), "Completed");
         Assert.assertEquals(dbRun.getNotes(), "");
