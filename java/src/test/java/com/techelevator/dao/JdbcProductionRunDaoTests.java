@@ -54,4 +54,30 @@ public class JdbcProductionRunDaoTests extends BaseDaoTests {
         Assert.assertEquals(dbRun.getStatus(), "Completed");
         Assert.assertEquals(dbRun.getNotes(), "");
     }
+
+    @Test
+    public void updated_run_has_expected_values_when_retrieved() {
+        ProductionRun run = prDao.getProductionRunById(1);
+        run.setProductCode(2);
+        run.setProductionDate(LocalDate.of(1991, 10, 20));
+        run.setVolume(101);
+        run.setStatus("Pending");
+        run.setNotes("Happy Birthday!");
+
+        ProductionRun updatedRun = prDao.updateProductionRun(run);
+        Assert.assertNotNull(updatedRun);
+        assertRunsMatch(run, updatedRun);
+
+        ProductionRun retrievedRun = prDao.getProductionRunById(updatedRun.getRunCode());
+        assertRunsMatch(retrievedRun, updatedRun);
+    }
+
+    private static void assertRunsMatch(ProductionRun run, ProductionRun updatedRun) {
+        Assert.assertEquals(run.getRunCode(), updatedRun.getRunCode());
+        Assert.assertEquals(run.getProductCode(), updatedRun.getProductCode());
+        Assert.assertEquals(run.getProductionDate(), updatedRun.getProductionDate());
+        Assert.assertEquals(run.getVolume(), updatedRun.getVolume());
+        Assert.assertEquals(run.getStatus(), updatedRun.getStatus());
+        Assert.assertEquals(run.getNotes(), updatedRun.getNotes());
+    }
 }

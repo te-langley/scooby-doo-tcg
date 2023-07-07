@@ -23,9 +23,12 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public Product createProduct(Product product) {
-        String sql = "insert into " + TABLE + " (name, species, occupation, catchphrase, image) values (?,?,?,?,?)";
+        String sql = "insert into " +
+                TABLE +
+                " (name, species, occupation, catchphrase, image)" +
+                " values (?,?,?,?,?)";
 
-        jdbcTemplate.update(conn -> {
+        int rowsAdded = jdbcTemplate.update(conn -> {
             PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, product.getName());
@@ -37,21 +40,12 @@ public class JdbcProductDao implements ProductDao {
             return preparedStatement;
         }, generatedKeyHolder);
 
-        Integer id = (Integer) generatedKeyHolder.getKeys().get("id");
-        product.setProductCode(id);
-
-        return product;
-    }
-
-    @Override
-    public Product getProductById(int id) {
-        String sql = "select * from " + TABLE + " where id = ?";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
-        if (results.next()) {
-            return mapRowToModel(results);
-        } else {
-            return null;
+        Product createdProduct = null;
+        if (rowsAdded > 0) {
+            createdProduct = getProductById((Integer) generatedKeyHolder.getKeys().get("id"));
         }
+
+        return createdProduct;
     }
 
     @Override
@@ -66,8 +60,22 @@ public class JdbcProductDao implements ProductDao {
     }
 
     @Override
+    public Product getProductById(int id) {
+        String sql = "select * from " + TABLE + " where id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        if (results.next()) {
+            return mapRowToModel(results);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public Product updateProduct(Product product) {
-        String sql = "update " + TABLE + " set name = ?, species = ?, occupation = ?, catchphrase = ? where id = ? ";
+        String sql = "update " +
+                TABLE +
+                " set name = ?, species = ?, occupation = ?, catchphrase = ?" +
+                " where id = ? ";
         int rowsUpdated = jdbcTemplate.update(sql,
                 product.getName(),
                 product.getSpecies(),
@@ -79,7 +87,6 @@ public class JdbcProductDao implements ProductDao {
         if (rowsUpdated > 0) {
             updatedProduct = getProductById(product.getProductCode());
         }
-
         return updatedProduct;
     }
 

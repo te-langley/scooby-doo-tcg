@@ -26,9 +26,10 @@ public class JdbcProductionRunDao implements ProductionRunDao {
     public ProductionRun createProductionRun(ProductionRun run) {
         String sql = "insert into " +
                 TABLE +
-                " (product_code, production_date, quantity, status, notes) values (?,?,?,?,?)";
+                " (product_code, production_date, quantity, status, notes)" +
+                " values (?,?,?,?,?)";
 
-        jdbcTemplate.update(conn -> {
+        int rowsAdded = jdbcTemplate.update(conn -> {
             PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setInt(1, run.getProductCode());
@@ -40,10 +41,11 @@ public class JdbcProductionRunDao implements ProductionRunDao {
             return preparedStatement;
         }, generatedKeyHolder);
 
-        Integer id = (Integer) generatedKeyHolder.getKeys().get("id");
-        run.setRunCode(id);
-
-        return run;
+        ProductionRun createdRun = null;
+        if (rowsAdded > 0) {
+            createdRun = getProductionRunById((Integer) generatedKeyHolder.getKeys().get("id"));
+        }
+        return createdRun;
     }
 
     @Override
@@ -59,7 +61,6 @@ public class JdbcProductionRunDao implements ProductionRunDao {
 
         return productionRuns;
     }
-
 
     @Override
     public ProductionRun getProductionRunById(int id) {
@@ -86,7 +87,23 @@ public class JdbcProductionRunDao implements ProductionRunDao {
 
     @Override
     public ProductionRun updateProductionRun(ProductionRun run) {
-        return null;
+        String sql = "UPDATE " +
+                TABLE +
+                " set product_code = ?, production_date = ?, quantity = ?, status = ?, notes = ?" +
+                " WHERE id=?";
+        int rowsUpdated = jdbcTemplate.update(sql,
+                run.getProductCode(),
+                run.getProductionDate(),
+                run.getVolume(),
+                run.getStatus(),
+                run.getNotes(),
+                run.getRunCode());
+
+        ProductionRun updatedRun = null;
+        if (rowsUpdated > 0) {
+            updatedRun = getProductionRunById(run.getRunCode());
+        }
+        return updatedRun;
     }
 
     @Override

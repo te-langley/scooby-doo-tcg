@@ -9,6 +9,7 @@
       <button v-if="canAcceptRun" @click="acceptRun">Accept</button>
       <button v-if="canCompleteRun" @click="completeRun">Complete</button>
     </div>
+    <experimental-form :inRun="run"/>
   </div>
 </template>
 
@@ -21,11 +22,14 @@ import ProductionRunService from '../services/ProductionRunService'
 
 import InstanceService from '../services/InstanceService'
 
+import ExperimentalForm from '../components/ExperimentalRunForm.vue'
+
 export default {
   name: 'run-detail',
   components: {
     Card,
     ProductionRun,
+    ExperimentalForm
   },
   data() {
     return {

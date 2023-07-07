@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class ProductionRun {
     private int runCode;
     private int productCode;
+    private int edition;
     private LocalDate productionDate;
     private int volume;
     private String status;
@@ -59,5 +60,13 @@ public class ProductionRun {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public int getEdition() {
+        return edition;
+    }
+
+    public void setEdition(int edition) {
+        this.edition = edition;
     }
 }

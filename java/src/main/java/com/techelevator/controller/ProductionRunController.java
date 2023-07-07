@@ -40,14 +40,12 @@ public class ProductionRunController {
     //==========================================================================
 
     @RequestMapping(method = RequestMethod.POST)
-    public ProductionRun post(@RequestBody ProductionRun run) {
+    public ProductionRun createRun(@RequestBody ProductionRun run) {
         return productionRunDao.createProductionRun(run);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ProductionRun updateStatus(@PathVariable int id, @RequestBody String status) {
-        ProductionRun run = productionRunDao.getProductionRunById(id);
-        run.setStatus(status);
-        return productionRunDao.updateProductionRunStatus(run);
+    public ProductionRun updateRun(@RequestBody ProductionRun run) {
+        return productionRunDao.updateProductionRun(run);
     }
 }

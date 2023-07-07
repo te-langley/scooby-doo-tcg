@@ -1,6 +1,6 @@
 <template>
   <div class="new-production-run-container">
-    <div class="new-production-run-header">Add/Edit Production Run</div>
+    <div class="new-production-run-header">{{ headerText }}</div>
     <form v-on:submit.prevent="submitNewProductionRun()">
       <!-- Id -->
       <!-- TODO: Display next ID? -->
@@ -8,7 +8,7 @@
       <!-- Product Code -->
       <label>
         <span>Product Code <span class="required">*</span></span>
-        <select class="select-field" v-model="run.productCode">
+        <select class="select-field" v-model="productCode">
           <option
             v-for="card in cards"
             :key="card.productCode"
@@ -22,19 +22,19 @@
       <!-- Date -->
       <label>
         <span>Date <span class="required">*</span></span>
-        <input type="date" class="input-field" v-model="run.productionDate" />
+        <input type="date" class="input-field" v-model="productionDate" />
       </label>
 
       <!-- Quantity -->
       <label>
         <span>Quantity <span class="required">*</span></span>
-        <input type="number" class="input-field" v-model="run.volume" />
+        <input type="number" class="input-field" v-model="volume" />
       </label>
 
       <!-- Status -->
       <label>
         <span>Status <span class="required">*</span></span>
-        <input type="text" class="input-field" v-model="run.status" />
+        <input type="text" class="input-field" v-model="status" />
       </label>
 
       <!-- Notes -->
@@ -44,7 +44,7 @@
           cols="30"
           rows="2"
           class="textarea-field"
-          v-model="run.notes"
+          v-model="notes"
         ></textarea>
       </label>
 
@@ -60,11 +60,18 @@
 import CardService from '../services/CardService.js'
 import ProductionRunService from '../services/ProductionRunService.js'
 export default {
-  name: 'new-production-run',
+  name: 'experimental-run-form',
+  props: {
+    initialData: {
+      type: Object,
+      default: () => ({ empty: true })
+    }
+  },
   data() {
     return {
+      headerText: 'Add Production Run',
       cards: [],
-      run: {
+      data: {
         productCode: '',
         productionDate: '',
         volume: '',
@@ -77,6 +84,9 @@ export default {
     CardService.list().then((response) => {
       this.cards = response.data;
     });
+    if (this.inRun) {
+      this.headerText = 'Edit Production Run';
+    }
   },
   methods: {
     submitNewProductionRun() {
@@ -87,7 +97,6 @@ export default {
       })
     }
   }
-
 }
 </script>
 
