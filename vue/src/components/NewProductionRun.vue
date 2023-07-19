@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import CardService from '../services/CardService.js'
+import ProductService from '../services/ProductService.js'
 import ProductionRunService from '../services/ProductionRunService.js'
 export default {
   name: 'new-production-run',
@@ -74,7 +74,7 @@ export default {
     }
   },
   created() {
-    CardService.list().then((response) => {
+    ProductService.list().then((response) => {
       this.cards = response.data;
     });
   },

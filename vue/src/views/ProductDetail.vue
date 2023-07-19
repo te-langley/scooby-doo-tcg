@@ -1,32 +1,32 @@
 <template>
-  <div class="card-details">
-    <card :card="card" />
+  <div class="product-details">
+    <product :product="product" />
     <production-run-table :runs="runs" />
   </div>
 </template>
 
 <script>
-import Card from '../components/info-cards/ProductInfo.vue'
-import CardService from '../services/CardService'
+import Product from '../components/info-cards/ProductInfo.vue'
+import ProductService from '../services/ProductService'
 
 import ProductionRunTable from '../components/ProductionRunTable.vue'
 import ProductionRunService from '../services/ProductionRunService'
 
 export default {
-  name: 'card-detail',
+  name: 'product-detail',
   components: {
-    Card,
+    Product,
     ProductionRunTable
   },
   data() {
     return {
-      card: {},
+      product: {},
       runs: []
     }
   },
   created() {
-    CardService.get(this.$route.params.id).then((response) => {
-      this.card = response.data;
+    ProductService.get(this.$route.params.id).then((response) => {
+      this.product = response.data;
     });
     ProductionRunService.getForProduct(this.$route.params.id).then((response) => {
       this.runs = response.data;
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style>
-.card-details {
+.product-details {
   display: flex;
   align-items: flex-start;
   gap: 10px;

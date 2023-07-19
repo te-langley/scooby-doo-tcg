@@ -1,14 +1,14 @@
 <template>
   <div class="admin-products">
-    <new-card v-on:update-products="refreshProducts" />
-    <card-table :cards="products" />
+    <new-card v-on:update-products="refreshProducts" hidden/>
+    <card-table :cards="products" hidden/>
   </div>
 </template>
 
 <script>
 import NewCard from './NewCard.vue'
 import CardTable from './CardTable.vue'
-import CardService from '../services/CardService.js'
+import ProductService from '../services/ProductService.js'
 
 export default {
   name: 'admin-products',
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     refreshProducts() {
-      CardService.list().then((response) => {
+      ProductService.list().then((response) => {
         this.products = response.data;
       });
     }

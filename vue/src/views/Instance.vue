@@ -1,7 +1,7 @@
 <template>
   <div class="instance-view">
     Not yet implemented...
-    <product-info />
+    <product-info :product="product"/>
     <run-info />
     <instance-info />
   </div>
@@ -15,6 +15,13 @@ import RunInfo from '../components/info-cards/RunInfo.vue';
 export default {
   name: 'instance-view',
   components: { ProductInfo, RunInfo, InstanceInfo },
+  data() {
+      return {
+          product: {},
+          run: {},
+          instance: {}
+      }
+  },
 }
 </script>
 

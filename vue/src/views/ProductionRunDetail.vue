@@ -1,7 +1,7 @@
 <template>
   <div class="run-detail-container">
     <div class="info">
-      <card :card="card" />
+      <product :product="product" />
       <production-run :run="run" />
     </div>
     <div class="actions">
@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import Card from '../components/info-cards/ProductInfo.vue'
-import CardService from '../services/CardService'
+import Product from '../components/info-cards/ProductInfo.vue'
+import ProductService from '../services/ProductService'
 
 import ProductionRun from '../components/info-cards/RunInfo.vue'
 import ProductionRunService from '../services/ProductionRunService'
@@ -27,13 +27,13 @@ import ExperimentalForm from '../components/ExperimentalRunForm.vue'
 export default {
   name: 'run-detail',
   components: {
-    Card,
+    Product,
     ProductionRun,
     ExperimentalForm
   },
   data() {
     return {
-      card: {},
+      product: {},
       run: {}
     }
   },
@@ -64,8 +64,8 @@ export default {
     getRun() {
       ProductionRunService.get(this.$route.params.id).then((response) => {
         this.run = response.data;
-        CardService.get(this.run.productCode).then((response) => {
-          this.card = response.data;
+        ProductService.get(this.run.productCode).then((response) => {
+          this.product = response.data;
         });
       });
     },

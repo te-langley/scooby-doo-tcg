@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import CardService from "../services/CardService.js";
+import ProductService from "../services/ProductService.js";
 export default {
   name: "experimental-card-form",
   data() {
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     saveCard() {
-      CardService.post(this.card).then((response) => {
+      ProductService.post(this.card).then((response) => {
         if (response.status == 200) {
             this.$emit('update-products');
         }

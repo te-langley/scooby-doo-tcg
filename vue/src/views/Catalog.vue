@@ -1,33 +1,33 @@
 <template>
   <div class="catalog-container">
     <router-link
-      :to="{ name: 'card', params: { id: card.productCode } }"
-      v-for="card in cards"
-      :key="card.id"
+      :to="{ name: 'product', params: { id: product.productCode } }"
+      v-for="product in products"
+      :key="product.id"
     >
-      <card :card="card" />
+      <product :product="product" />
     </router-link>
   </div>
 </template>
 
 <script>
-import Card from '../components/info-cards/ProductInfo.vue'
-import CardService from '../services/CardService.js'
+import Product from '../components/info-cards/ProductInfo.vue'
+import ProductService from '../services/ProductService.js'
 
 export default {
   name: '',
   data() {
     return {
-      cards: []
+      products: []
     }
   },
   created() {
-    CardService.list().then((response) => {
-      this.cards = response.data;
+    ProductService.list().then((response) => {
+      this.products = response.data;
     });
   },
   components: {
-    Card,
+    Product,
   }
 }
 </script>

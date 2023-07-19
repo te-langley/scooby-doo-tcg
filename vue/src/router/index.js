@@ -6,9 +6,10 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import Admin from '../views/Admin.vue'
 import Catalog from '../views/Catalog.vue'
-import CardDetail from '../views/CardDetail.vue'
+import ProductDetail from '../views/ProductDetail.vue'
 import ProductionRunDetail from '../views/ProductionRunDetail.vue'
 import Instance from '../views/Instance.vue'
+import Unlocker from '../views/Unlocker.vue'
 import store from '../store/index'
 
 Vue.use(Router)
@@ -67,9 +68,9 @@ const router = new Router({
             }
         },
         {
-            path: '/card/:id',
-            name: 'card',
-            component: CardDetail,
+            path: '/product/:id',
+            name: 'product',
+            component: ProductDetail,
             meta: {
                 requiresAuth: false
             }
@@ -95,6 +96,14 @@ const router = new Router({
             path: "/admin",
             name: "admin",
             component: Admin,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/unlock",
+            name: "unlock",
+            component:  Unlocker,
             meta: {
                 requiresAuth: true
             }
