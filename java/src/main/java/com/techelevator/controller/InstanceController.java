@@ -7,8 +7,6 @@ import com.techelevator.util.SerialGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/instance")
 @CrossOrigin
@@ -75,10 +73,10 @@ public class InstanceController {
      *
      * @return
      */
-//    @RequestMapping(method = RequestMethod.GET)
-//    public List<Instance> readAll() {
-//        return instanceDao.readAll();
-//    }
+    //    @RequestMapping(method = RequestMethod.GET)
+    //    public List<Instance> readAll() {
+    //        return instanceDao.readAll();
+    //    }
 
     /**
      * Flips the claimed flag on the instance to true.
@@ -104,7 +102,7 @@ public class InstanceController {
     }
 
     /**
-     * Deletes instance(s) for a production run.
+     * Deletes all instance(s) for a production run.
      *
      * @param run
      * @return

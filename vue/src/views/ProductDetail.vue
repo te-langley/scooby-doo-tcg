@@ -1,12 +1,12 @@
 <template>
   <div class="product-details">
-    <product :product="product" />
+    <product-info :product="product" />
     <production-run-table :runs="runs" />
   </div>
 </template>
 
 <script>
-import Product from '../components/info-cards/ProductInfo.vue'
+import ProductInfo from '../components/info-cards/ProductInfo.vue'
 import ProductService from '../services/ProductService'
 
 import ProductionRunTable from '../components/ProductionRunTable.vue'
@@ -15,7 +15,7 @@ import ProductionRunService from '../services/ProductionRunService'
 export default {
   name: 'product-detail',
   components: {
-    Product,
+    ProductInfo,
     ProductionRunTable
   },
   data() {

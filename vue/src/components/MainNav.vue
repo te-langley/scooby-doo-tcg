@@ -1,5 +1,6 @@
 <template>
   <nav class="main-nav">
+    <current-user />
     <router-link v-bind:to="{ name: 'home' }"> Home </router-link>
     <router-link v-bind:to="{ name: 'catalog' }"> Catalog </router-link>
     <router-link v-bind:to="{ name: 'admin' }"> Product Manager </router-link>
@@ -10,7 +11,9 @@
 </template>
 
 <script>
+import CurrentUser from './CurrentUser.vue'
 export default {
+  components: { CurrentUser },
 
 }
 </script>

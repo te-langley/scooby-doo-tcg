@@ -1,7 +1,7 @@
 <template>
   <div class="admin-products">
-    <new-card v-on:update-products="refreshProducts" hidden/>
-    <card-table :cards="products" hidden/>
+    <new-card v-on:update-products="refreshProducts" />
+    <card-table :cards="products" />
   </div>
 </template>
 

@@ -8,7 +8,7 @@ import Admin from '../views/Admin.vue'
 import Catalog from '../views/Catalog.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import ProductionRunDetail from '../views/ProductionRunDetail.vue'
-import Instance from '../views/Instance.vue'
+import InstanceDetail from '../views/InstanceDetail.vue'
 import Unlocker from '../views/Unlocker.vue'
 import store from '../store/index'
 
@@ -87,7 +87,7 @@ const router = new Router({
         {
             path: '/instance/:serial',
             name: 'instance',
-            component: Instance,
+            component: InstanceDetail,
             meta: {
                 requiresAuth: true
             }
