@@ -10,18 +10,27 @@ import java.util.List;
 @RequestMapping("/api/scooby-cards")
 @CrossOrigin
 public class ProductController {
+
+    //==============================================================================
+    // CLASS VARIABLE(S)
+    //==============================================================================
     private final ProductDao productDao;
+
+    //==============================================================================
+    // CONSTRUCTOR(S)
+    //==============================================================================
 
     public ProductController(ProductDao productDao) {
         this.productDao = productDao;
     }
 
-    //==========================================================================
-    // PUBLIC
-    //==========================================================================
+    //==============================================================================
+    // HANDLER METHODS
+    //==============================================================================
 
     /**
      * Returns all products.
+     *
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -30,7 +39,8 @@ public class ProductController {
     }
 
     /**
-     * Return product for a given ID.
+     * <b>Return product for a given ID.</b>
+     *
      * @param id
      * @return
      */
@@ -39,22 +49,20 @@ public class ProductController {
         return productDao.getProductById(id);
     }
 
-    //==========================================================================
-    // INTERNAL
-    //==========================================================================
-
     /**
-     * Request to add a new product to the database.
+     * <b>Add a new product to the database.</b>
+     *
      * @param product The desired product values.
      * @return The added product.
      */
     @RequestMapping(method = RequestMethod.POST)
-    public Product post(@RequestBody Product product) {
+    public Product createProduct(@RequestBody Product product) {
         return productDao.createProduct(product);
     }
 
     /**
-     * Request to update the entire product in the database.
+     * <b>Update the given product in the database.</b>
+     *
      * @param product
      * @return
      */
@@ -62,5 +70,7 @@ public class ProductController {
     public Product updateProduct(@RequestBody Product product) {
         return productDao.updateProduct(product);
     }
+
+    // TODO Update product including the product id.
 
 }

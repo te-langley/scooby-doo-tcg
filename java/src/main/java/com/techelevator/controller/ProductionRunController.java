@@ -10,42 +10,52 @@ import java.util.List;
 @RequestMapping("/production-runs")
 @CrossOrigin
 public class ProductionRunController {
+
+    //==============================================================================
+    // CLASS VARIABLE(S)
+    //==============================================================================
+
     private final ProductionRunDao productionRunDao;
+
+    //==============================================================================
+    // CONSTRUCTOR(S)
+    //==============================================================================
 
     public ProductionRunController(ProductionRunDao productionRunDao) {
         this.productionRunDao = productionRunDao;
     }
 
     //==========================================================================
-    // PUBLIC
+    // HANDLER METHODS
     //==========================================================================
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping()
     public List<ProductionRun> getAll() {
         return productionRunDao.getAllProductionRuns();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public ProductionRun getWithId(@PathVariable int id) {
         return productionRunDao.getProductionRunById(id);
     }
 
-    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    @GetMapping("/product/{id}")
     public List<ProductionRun> getForProduct(@PathVariable int id) {
         return productionRunDao.getProductionRunsByProductCode(id);
     }
 
-    //==========================================================================
-    // INTERNAL
-    //==========================================================================
-
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ProductionRun createRun(@RequestBody ProductionRun run) {
         return productionRunDao.createProductionRun(run);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping
     public ProductionRun updateRun(@RequestBody ProductionRun run) {
         return productionRunDao.updateProductionRun(run);
+    }
+
+    @DeleteMapping
+    public ProductionRun deleteRun(@RequestParam int id) {
+        return productionRunDao.deleteRun(id);
     }
 }

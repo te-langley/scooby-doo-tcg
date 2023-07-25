@@ -7,15 +7,30 @@ import com.techelevator.util.SerialGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/instance")
 @CrossOrigin
 public class InstanceController {
+
+    //==============================================================================
+    // CLASS VARIABLE(S)
+    //==============================================================================
+
     private final InstanceDao instanceDao;
+
+    //==============================================================================
+    // CONSTRUCTOR(S)
+    //==============================================================================
 
     public InstanceController(InstanceDao instanceDao) {
         this.instanceDao = instanceDao;
     }
+
+    //==============================================================================
+    // HANDLER METHODS
+    //==============================================================================
 
     /**
      * <b>Adds instance(s) to the database.</b>
@@ -43,16 +58,8 @@ public class InstanceController {
         return false;
     }
 
-    private boolean shouldCreateInstances(ProductionRun run) {
-        if (!run.getStatus().equals("In Progress")) {
-            return false;
-        }
-
-        return true;
-    }
-
     /**
-     * Returns the instance for the given serial.
+     * <b>Returns the instance for the given serial.</b>
      *
      * @param serial
      * @return
@@ -73,13 +80,13 @@ public class InstanceController {
      *
      * @return
      */
-    //    @RequestMapping(method = RequestMethod.GET)
-    //    public List<Instance> readAll() {
-    //        return instanceDao.readAll();
-    //    }
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Instance> readAll() {
+        return instanceDao.readAll();
+    }
 
     /**
-     * Flips the claimed flag on the instance to true.
+     * <b>Flips the claimed flag on the instance to true.</b>
      * TODO: Currently no way of "locking" the serial. Not sure if that's needed yet...
      *
      * @param serial
@@ -91,7 +98,7 @@ public class InstanceController {
     }
 
     /**
-     * Deletes an instance.
+     * <b>Deletes the instance.</b>
      *
      * @param id
      * @return
@@ -102,7 +109,7 @@ public class InstanceController {
     }
 
     /**
-     * Deletes all instance(s) for a production run.
+     * <b>Deletes all instance(s) for a production run.</b>
      *
      * @param run
      * @return
@@ -111,6 +118,10 @@ public class InstanceController {
     public boolean delete(@RequestBody ProductionRun run) {
         return instanceDao.delete(run.getRunCode());
     }
+
+    //==============================================================================
+    // PRIVATE METHODS
+    //==============================================================================
 
     private String generateSerial() {
         SerialGenerator sg = new SerialGenerator();
@@ -132,6 +143,17 @@ public class InstanceController {
             return true;
         }
     }
+
+    private boolean shouldCreateInstances(ProductionRun run) {
+        if (!run.getStatus().equals("In Progress")) {
+            return false;
+        }
+        return true;
+    }
+
+    //==============================================================================
+    // PRIVATE EXCEPTIONS
+    //==============================================================================
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "No instance found for this serial.")
     private class InstanceNotFoundException extends RuntimeException {

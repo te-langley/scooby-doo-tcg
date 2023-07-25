@@ -66,7 +66,7 @@ public class JdbcInstanceDao implements InstanceDao {
 
     @Override
     public boolean unlock(String serial) {
-        String sql = "update " + TABLE + "set claimed='true' WHERE serial=?";
+        String sql = "update " + TABLE + " set claimed='true' WHERE serial=?";
         return jdbcTemplate.update(sql, serial) == 1;
     }
 

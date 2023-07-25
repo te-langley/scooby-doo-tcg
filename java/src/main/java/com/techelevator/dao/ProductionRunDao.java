@@ -45,4 +45,6 @@ public interface ProductionRunDao {
      * @return The updated run retrieved from the database.
      */
     ProductionRun updateProductionRunStatus(ProductionRun run);
+
+    ProductionRun deleteRun(int id);
 }

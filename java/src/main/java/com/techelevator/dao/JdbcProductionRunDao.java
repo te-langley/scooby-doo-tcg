@@ -119,6 +119,11 @@ public class JdbcProductionRunDao implements ProductionRunDao {
         return updatedRun;
     }
 
+    @Override
+    public ProductionRun deleteRun(int id) { // TODO
+        return null;
+    }
+
     ProductionRun mapRowToModel(SqlRowSet results) {
         ProductionRun productionRun = new ProductionRun();
         productionRun.setRunCode(results.getInt("id"));
