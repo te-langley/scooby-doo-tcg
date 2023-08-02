@@ -12,19 +12,21 @@ public interface InstanceDao {
      * @param instance
      * @return The number of rows added to the database.
      */
-    int create(Instance instance);
+    int createInstance(Instance instance);
 
-    Instance read(String serial);
+    Instance getInstanceBySerial(String serial);
 
-    List<Instance> readAll();
+    List<Instance> getAllInstances();
+
+    List<Instance> getInstancesForRun(int runCode);
 
     boolean contains(String proposedSerial);
 
-    boolean alreadyGeneratedForRun(int runCode);
+    int instancesGeneratedForRun(int runCode);
 
-    boolean unlock(String serial);
+    Instance unlock(String serial);
 
-    boolean delete(String serial);
+    int deleteInstance(String serial);
 
-    boolean delete(int runCode);
+    int deleteInstancesForRun(int runCode);
 }

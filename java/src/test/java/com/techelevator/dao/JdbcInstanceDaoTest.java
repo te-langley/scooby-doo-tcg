@@ -12,9 +12,10 @@ public class JdbcInstanceDaoTest extends BaseDaoTests {
         setProductCode(1);
         setProductionRun(1);
         setSequence(999);
-        setClaimed(true);
+        setLocked(true);
     }};
     private JdbcInstanceDao dao;
+
 
     @Before
     public void setup() {
@@ -22,27 +23,26 @@ public class JdbcInstanceDaoTest extends BaseDaoTests {
         dao = new JdbcInstanceDao(jdbcTemplate);
     }
 
-
     @Test
     public void create() {
         // Add the Instance to the database.
-        Assert.assertTrue("One row should be added to the database.", dao.create(INSTANCE_TO_CREATE) == 1);
+        Assert.assertTrue("One row should be added to the database.", dao.createInstance(INSTANCE_TO_CREATE) == 1);
 
         // Retrieve the Instance from the database.
-        Instance dbInstance = dao.read(INSTANCE_TO_CREATE.getSerial());
+        Instance dbInstance = dao.getInstanceBySerial(INSTANCE_TO_CREATE.getSerial());
         Assert.assertNotNull("The returned instance should not be null.", dbInstance);
         Assert.assertTrue("Instance not correct.", dbInstance.equals(INSTANCE_TO_CREATE));
     }
 
     @Test
     public void read() {
-        Instance dbInstance = dao.read("DDSMUL");
+        Instance dbInstance = dao.getInstanceBySerial("DDSMUL");
         Assert.assertNotNull("The returned instance should not be null.", dbInstance);
         Assert.assertTrue(dbInstance.getSerial().equals("DDSMUL"));
         Assert.assertTrue(dbInstance.getProductCode() == 1);
         Assert.assertTrue(dbInstance.getProductionRun() == 1);
         Assert.assertTrue(dbInstance.getSequence() == 1);
-        Assert.assertTrue(dbInstance.isClaimed() == false);
+        Assert.assertTrue(dbInstance.isLocked() == false);
     }
 
     @Test
@@ -51,16 +51,59 @@ public class JdbcInstanceDaoTest extends BaseDaoTests {
 
     @Test
     public void instancesAlreadyCreatedForRun() {
-        Assert.assertTrue("Expected instances for run 1.", dao.alreadyGeneratedForRun(1));
-        Assert.assertFalse("Did not expect instances for run 999.", dao.alreadyGeneratedForRun(999));
+        Assert.assertEquals("Expected 100 instances for run 1.", 100, dao.instancesGeneratedForRun(1));
+        Assert.assertEquals("Expected no instances for run 999.", 0, dao.instancesGeneratedForRun(999));
     }
 
     @Test
-    public void unlock() {
+    public void unlocked_instance_has_expected_values_when_retrieved() {
+        String serial = "22YPPM";
 
+        Instance unlockedInstance = dao.unlock(serial);
+        Assert.assertNotNull(unlockedInstance);
+        Assert.assertTrue(unlockedInstance.isLocked());
+
+        Instance retrievedInstance = dao.getInstanceBySerial(serial);
+        assertInstancesMatch(retrievedInstance, unlockedInstance);
     }
 
-    //    @Test
-    public void delete() {
+    @Test
+    public void deleted_instance_can_no_longer_be_retrieved() {
+        String serial = "22YPPM";
+
+        int numDeleted = dao.deleteInstance(serial);
+        Instance retrievedInstance = dao.getInstanceBySerial(serial);
+
+        Assert.assertEquals("Only one instance should be deleted.", 1, numDeleted);
+        Assert.assertNull("No instance should be retrieved after deletion.", retrievedInstance);
     }
+
+    @Test
+    public void instances_deleted_by_run_cannot_be_retrieved() {
+        int runToDelete = 1;
+        String serial = "DDSMUL";
+
+        Instance retrievedInstance = dao.getInstanceBySerial(serial);
+        Assert.assertNotNull("Instance " + serial + " exists prior to deleting instances for run " + runToDelete,
+                retrievedInstance);
+
+
+        int numDeleted = dao.deleteInstancesForRun(runToDelete);
+        retrievedInstance = dao.getInstanceBySerial(serial);
+
+        Assert.assertEquals("Number of rows deleted should match the run's volume.", 100, numDeleted);
+        Assert.assertNull("Instance " +
+                serial +
+                " should not be retrieved after deleting instances for run " +
+                runToDelete, retrievedInstance);
+    }
+
+    private void assertInstancesMatch(Instance expected, Instance actual) {
+        Assert.assertEquals(expected.getSerial(), actual.getSerial());
+        Assert.assertEquals(expected.getProductCode(), actual.getProductCode());
+        Assert.assertEquals(expected.getProductionRun(), actual.getProductionRun());
+        Assert.assertEquals(expected.getSequence(), actual.getSequence());
+        Assert.assertEquals(expected.isLocked(), actual.isLocked());
+    }
+
 }

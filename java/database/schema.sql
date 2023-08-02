@@ -1,7 +1,5 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users;
-
 CREATE TABLE users (
 	user_id SERIAL,
 	username varchar(50) NOT NULL UNIQUE,
@@ -34,16 +32,17 @@ CREATE TABLE instance (
     product_code INTEGER REFERENCES product (id),
     production_run INTEGER,
     sequence INTEGER,
-    claimed BOOLEAN default false,
+    locked BOOLEAN default true,
     CONSTRAINT fk_production_run FOREIGN KEY(production_run) REFERENCES production_run (id)
 );
 
-CREATE TABLE user_instance (
-    user_id SERIAL REFERENCES users (user_id),
-    instance_serial VARCHAR(6) REFERENCES instance (serial)
+CREATE TABLE claimed (
+    serial VARCHAR(6) PRIMARY KEY REFERENCES instance (serial),
+    user_id SERIAL NOT NULL REFERENCES users (user_id)
 );
 
 CREATE TABLE instance_history (
+    event_id SERIAL PRIMARY KEY,
     instance_serial VARCHAR(6) REFERENCES instance (serial),
     user_id SERIAL REFERENCES users (user_id),
     claimed BOOLEAN NOT NULL,

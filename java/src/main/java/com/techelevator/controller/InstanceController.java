@@ -7,6 +7,7 @@ import com.techelevator.util.SerialGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,11 +39,13 @@ public class InstanceController {
      * Uses production run information to create and add a batch of instances to the database.  Unused serial numbers are generated on the fly.
      *
      * @param run
-     * @return TODO: Should return something meaningful.  Number of records added?  List of generated serials?
+     * @return List of created instances.
      */
     @RequestMapping(method = RequestMethod.POST)
-    public boolean createFromRun(@RequestBody ProductionRun run) {
+    public List<Instance> createFromRun(@RequestBody ProductionRun run) {
+        List<Instance> createdInstances = null;
         if (shouldCreateInstances(run)) {
+            createdInstances = new ArrayList<>();
             for (int i = 1; i <= run.getVolume(); i++) {
                 Instance instance = new Instance();
 
@@ -50,12 +53,18 @@ public class InstanceController {
                 instance.setProductCode(run.getProductCode());
                 instance.setProductionRun(run.getRunCode());
                 instance.setSequence(i);
-                instance.setClaimed(false);
+                instance.setLocked(false);
 
-                instanceDao.create(instance);
+                int numCreated = instanceDao.createInstance(instance);
+
+                Instance createdInstance = null;
+                if (numCreated > 0) {
+                    createdInstance = instanceDao.getInstanceBySerial(instance.getSerial());
+                    createdInstances.add(createdInstance);
+                }
             }
         }
-        return false;
+        return createdInstances;
     }
 
     /**
@@ -64,9 +73,9 @@ public class InstanceController {
      * @param serial
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping()
     public Instance read(@RequestParam String serial) {
-        Instance instance = instanceDao.read(serial.toUpperCase());
+        Instance instance = instanceDao.getInstanceBySerial(serial.toUpperCase());
         if (instance != null) {
             return instance;
         } else {
@@ -75,14 +84,13 @@ public class InstanceController {
     }
 
     /**
-     * Returns all instances... For debugging purposes?
-     * TODO: This really should not be available to just anyone. Maybe it shouldn't be available at all?
+     * <b>Returns all instances.</b>
      *
-     * @return
+     * @return List of all instances.
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("all")
     public List<Instance> readAll() {
-        return instanceDao.readAll();
+        return instanceDao.getAllInstances();
     }
 
     /**
@@ -93,7 +101,7 @@ public class InstanceController {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public boolean unlock(@PathVariable String serial) {
+    public Instance unlock(@PathVariable String serial) {
         return instanceDao.unlock(serial.toUpperCase());
     }
 
@@ -104,8 +112,8 @@ public class InstanceController {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public boolean delete(@PathVariable String id) {
-        return instanceDao.delete(id);
+    public int delete(@PathVariable String id) {
+        return instanceDao.deleteInstance(id);
     }
 
     /**
@@ -115,8 +123,8 @@ public class InstanceController {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE)
-    public boolean delete(@RequestBody ProductionRun run) {
-        return instanceDao.delete(run.getRunCode());
+    public int delete(@RequestBody ProductionRun run) {
+        return instanceDao.deleteInstancesForRun(run.getRunCode());
     }
 
     //==============================================================================
@@ -148,6 +156,11 @@ public class InstanceController {
         if (!run.getStatus().equals("In Progress")) {
             return false;
         }
+
+        if (instanceDao.instancesGeneratedForRun(run.getRunCode()) > 0) {
+            return false;
+        }
+
         return true;
     }
 

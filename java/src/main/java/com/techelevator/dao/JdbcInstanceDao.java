@@ -18,18 +18,31 @@ public class JdbcInstanceDao implements InstanceDao {
     }
 
     @Override
-    public int create(Instance instance) {
-        String sql = "insert into " + TABLE + " (serial, product_code, production_run, sequence, claimed) values (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, instance.getSerial(), instance.getProductCode(), instance.getProductionRun(), instance.getSequence(), instance.isClaimed());
+    public int createInstance(Instance instance) {
+        String sql = "insert into " +
+                TABLE +
+                " (serial, product_code, production_run, sequence, claimed) values (?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql,
+                instance.getSerial(),
+                instance.getProductCode(),
+                instance.getProductionRun(),
+                instance.getSequence(),
+                instance.isLocked());
     }
 
-    /**
-     * Gets the {@code Instance} for the given {@code serial}.
-     * @param serial
-     * @return
-     */
     @Override
-    public Instance read(String serial) {
+    public List<Instance> getAllInstances() {
+        List<Instance> instances = new ArrayList<>();
+        String sql = "select * from instance";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()) {
+            instances.add(mapRowToModel(results));
+        }
+        return instances;
+    }
+
+    @Override
+    public Instance getInstanceBySerial(String serial) {
         String sql = "select serial, product_code, production_run, sequence, claimed from instance where serial = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, serial);
         if (results.next()) {
@@ -40,14 +53,14 @@ public class JdbcInstanceDao implements InstanceDao {
     }
 
     @Override
-    public List<Instance> readAll() {
+    public List<Instance> getInstancesForRun(int runCode) {
         List<Instance> instances = new ArrayList<>();
-        String sql = "select * from instance";
+        String sql = "select * from instance where production_run = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()) {
             instances.add(mapRowToModel(results));
         }
-            return instances;
+        return instances;
     }
 
     @Override
@@ -58,27 +71,35 @@ public class JdbcInstanceDao implements InstanceDao {
     }
 
     @Override
-    public boolean alreadyGeneratedForRun(int runCode) {
+    public int instancesGeneratedForRun(int runCode) {
         String sql = "select count(*) from " + TABLE + " where production_run = ?";
         int count = jdbcTemplate.queryForObject(sql, new Object[]{runCode}, Integer.class);
-        return count > 0;
+        return count;
     }
 
     @Override
-    public boolean unlock(String serial) {
-        String sql = "update " + TABLE + " set claimed='true' WHERE serial=?";
-        return jdbcTemplate.update(sql, serial) == 1;
+    public Instance unlock(String serial) {
+        String sql = "update " + TABLE + " set claimed='true' WHERE serial = ?";
+        int rowsUpdated = jdbcTemplate.update(sql, serial);
+
+        Instance updatedInstance = null;
+        if (rowsUpdated > 0) {
+            updatedInstance = getInstanceBySerial(serial);
+        }
+
+        return updatedInstance;
     }
 
     @Override
-    public boolean delete(String serial) {
+    public int deleteInstance(String serial) {
         String sql = "delete from " + TABLE + " where serial = ?";
-        return jdbcTemplate.update(sql, serial) == 1;
+        return jdbcTemplate.update(sql, serial);
     }
 
     @Override
-    public boolean delete(int runCode) {
-        return false;
+    public int deleteInstancesForRun(int runCode) {
+        String sql = "DELETE FROM " + TABLE +" WHERE production_run = ?";
+        return jdbcTemplate.update(sql, runCode);
     }
 
     Instance mapRowToModel(SqlRowSet results) {
@@ -88,7 +109,7 @@ public class JdbcInstanceDao implements InstanceDao {
         instance.setProductCode(results.getInt("product_code"));
         instance.setProductionRun(results.getInt("production_run"));
         instance.setSequence(results.getInt("sequence"));
-        instance.setClaimed(results.getBoolean("claimed"));
+        instance.setLocked(results.getBoolean("claimed"));
 
         return instance;
     }

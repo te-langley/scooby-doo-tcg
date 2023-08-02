@@ -11,7 +11,6 @@ public  class SerialGenerator {
     }
 
     public static String generateSerial() {
-        System.out.println("testing");
         return rsg.generate(6);
     }
 

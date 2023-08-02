@@ -20,7 +20,7 @@ public class Instance {
     /**
      * Whether this instance has been claimed.  All instances start with a default of false.  This value changes to true upon the first claim and can no longer be modified therafter.
      */
-    private boolean claimed;
+    private boolean locked;
 
     public String getSerial() {
         return serial;
@@ -54,12 +54,12 @@ public class Instance {
         this.sequence = sequence;
     }
 
-    public boolean isClaimed() {
-        return claimed;
+    public boolean isLocked() {
+        return locked;
     }
 
-    public void setClaimed(boolean claimed) {
-        this.claimed = claimed;
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
     @Override
@@ -78,6 +78,6 @@ public class Instance {
                 this.productCode == instance.getProductCode() &&
                 this.productionRun == instance.getProductionRun() &&
                 this.sequence == instance.getSequence() &&
-                this.claimed == instance.isClaimed();
+                this.locked == instance.isLocked();
     }
 }
