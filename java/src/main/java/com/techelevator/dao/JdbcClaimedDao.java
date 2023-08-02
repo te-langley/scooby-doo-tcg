@@ -1,9 +1,11 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Claimed;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class JdbcClaimedDao implements ClaimedDao {
     @Override
     public Claimed createRecord(int userId, String serial) {

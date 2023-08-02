@@ -21,13 +21,12 @@ public class JdbcInstanceDao implements InstanceDao {
     public int createInstance(Instance instance) {
         String sql = "insert into " +
                 TABLE +
-                " (serial, product_code, production_run, sequence, claimed) values (?, ?, ?, ?, ?)";
+                " (serial, product_code, production_run, sequence) values (?, ?, ?, ?)";
         return jdbcTemplate.update(sql,
                 instance.getSerial(),
                 instance.getProductCode(),
                 instance.getProductionRun(),
-                instance.getSequence(),
-                instance.isLocked());
+                instance.getSequence());
     }
 
     @Override
@@ -43,7 +42,7 @@ public class JdbcInstanceDao implements InstanceDao {
 
     @Override
     public Instance getInstanceBySerial(String serial) {
-        String sql = "select serial, product_code, production_run, sequence, claimed from instance where serial = ?";
+        String sql = "select serial, product_code, production_run, sequence, locked from instance where serial = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, serial);
         if (results.next()) {
             return mapRowToModel(results);
@@ -109,7 +108,7 @@ public class JdbcInstanceDao implements InstanceDao {
         instance.setProductCode(results.getInt("product_code"));
         instance.setProductionRun(results.getInt("production_run"));
         instance.setSequence(results.getInt("sequence"));
-        instance.setLocked(results.getBoolean("claimed"));
+        instance.setLocked(results.getBoolean("locked"));
 
         return instance;
     }
