@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.ProductDao;
 import com.techelevator.model.Product;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -43,7 +43,7 @@ public class ClaimController {
             // 1. Unlock the instance.
             instance = instanceDao.unlock(serial);
             // 2. Add a record to the claimed table.
-            Claimed claimedRec = claimedDao.createRecord(userId, serial);
+            int claimedRec = claimedDao.createRecord(serial, userId);
             // 3. Add a record to the instance event table.
 
             InstanceEvent unlockEvent = new InstanceEvent();

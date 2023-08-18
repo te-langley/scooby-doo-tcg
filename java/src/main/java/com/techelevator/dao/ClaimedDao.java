@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface ClaimedDao {
 
-    Claimed createRecord(int userId, String serial);
+    int createRecord(String serial, int userId);
 
-    List<Claimed> getInstancesForUser(int userId);
+    List<String> getSerialsForUser(int userId);
 
-    Claimed getClaimed(String serial);
+    boolean isClaimed(String serial);
 
-    Claimed updateRecord(int userId, String serial);
+    Claimed updateRecord(String serial, int userId);
 
     int deleteRecord(String serial);
 

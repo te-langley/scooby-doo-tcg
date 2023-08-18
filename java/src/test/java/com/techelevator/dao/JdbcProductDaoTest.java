@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
-public class JdbcProductDaoTests extends BaseDaoTests {
+public class JdbcProductDaoTest extends BaseDaoTests {
     private JdbcProductDao dao;
     private static final Product PRODUCT_TO_CREATE = new Product() {{
         setName("Scooby Doo (Glitter)");

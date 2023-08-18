@@ -13,14 +13,23 @@ import java.util.List;
 
 @Component
 public class JdbcProductDao implements ProductDao {
+    //==============================================================================
+    // INSTANCE VARIABLES
+    //==============================================================================
     private final String TABLE = "product";
     private final JdbcTemplate jdbcTemplate;
     private final GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
+    //==============================================================================
+    // CONSTRUCTOR
+    //==============================================================================
     public JdbcProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    //==============================================================================
+    // CLASS METHODS
+    //==============================================================================
     @Override
     public Product createProduct(Product product) {
         String sql = "insert into " +
@@ -89,6 +98,10 @@ public class JdbcProductDao implements ProductDao {
         }
         return updatedProduct;
     }
+
+    //==============================================================================
+    // UTILITY/HELPER METHODS
+    //==============================================================================
 
     Product mapRowToModel(SqlRowSet results) {
         Product product = new Product();
