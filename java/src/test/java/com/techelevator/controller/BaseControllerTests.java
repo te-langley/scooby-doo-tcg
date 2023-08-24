@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.sql.DataSource;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(ProductController.class)
+//@RunWith(SpringRunner.class)
+//@WebMvcTest(ProductController.class)
 @ContextConfiguration(classes = TestingDatabaseConfig.class)
 public abstract class BaseControllerTests {
 

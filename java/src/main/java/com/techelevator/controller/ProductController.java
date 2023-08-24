@@ -5,6 +5,8 @@ import com.techelevator.model.Product;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
