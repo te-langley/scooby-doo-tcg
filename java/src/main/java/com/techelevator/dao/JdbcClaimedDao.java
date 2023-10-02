@@ -18,7 +18,7 @@ public class JdbcClaimedDao implements ClaimedDao {
     }
 
     @Override
-    public int createRecord(String serial, int userId) {
+    public int createClaimRecord(String serial, int userId) {
         String sql = "insert into claimed(serial, user_id) values (?, ?)";
         return jdbcTemplate.update(sql, serial, userId);
     }

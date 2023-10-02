@@ -78,7 +78,7 @@ public class JdbcInstanceDao implements InstanceDao {
 
     @Override
     public Instance unlock(String serial) {
-        String sql = "update " + TABLE + " set claimed='true' WHERE serial = ?";
+        String sql = "UPDATE " + TABLE + " SET claimed='true' WHERE serial = ?";
         int rowsUpdated = jdbcTemplate.update(sql, serial);
 
         Instance updatedInstance = null;

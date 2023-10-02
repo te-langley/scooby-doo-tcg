@@ -3,7 +3,6 @@ package com.techelevator.controller;
 import com.techelevator.dao.ClaimedDao;
 import com.techelevator.dao.InstanceDao;
 import com.techelevator.dao.InstanceEventDao;
-import com.techelevator.model.Claimed;
 import com.techelevator.model.Instance;
 import com.techelevator.model.InstanceEvent;
 import com.techelevator.util.InstanceEvents;
@@ -37,13 +36,12 @@ public class ClaimController {
     //==============================================================================
     @PostMapping("/{serial}")
     public void claim(@PathVariable String serial, @RequestParam int userId) {
-        System.out.println("...");
         Instance instance = instanceDao.getInstanceBySerial(serial);
         if (instance.isLocked()) {
             // 1. Unlock the instance.
             instance = instanceDao.unlock(serial);
             // 2. Add a record to the claimed table.
-            int claimedRec = claimedDao.createRecord(serial, userId);
+            int claimedRec = claimedDao.createClaimRecord(serial, userId);
             // 3. Add a record to the instance event table.
 
             InstanceEvent unlockEvent = new InstanceEvent();

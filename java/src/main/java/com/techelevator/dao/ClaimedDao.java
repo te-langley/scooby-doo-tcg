@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ClaimedDao {
 
-    int createRecord(String serial, int userId);
+    int createClaimRecord(String serial, int userId);
 
     List<String> getSerialsForUser(int userId);
 

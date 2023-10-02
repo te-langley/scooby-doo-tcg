@@ -36,11 +36,6 @@ CREATE TABLE instance (
     CONSTRAINT fk_production_run FOREIGN KEY(production_run) REFERENCES production_run (id)
 );
 
-CREATE TABLE claimed (
-    serial VARCHAR(6) PRIMARY KEY REFERENCES instance (serial),
-    user_id SERIAL NOT NULL REFERENCES users (user_id)
-);
-
 CREATE TABLE instance_history (
     event_id SERIAL PRIMARY KEY,
     instance_serial VARCHAR(6) REFERENCES instance (serial),
@@ -48,5 +43,18 @@ CREATE TABLE instance_history (
     claimed BOOLEAN NOT NULL,
     change_date DATE DEFAULT CURRENT_DATE
 );
+
+CREATE VIEW last_update AS
+    SELECT max(change_date) AS last_updated, instance_serial
+    FROM instance_history
+    GROUP BY instance_serial;
+
+CREATE VIEW currently_claimed AS
+    SELECT ih.instance_serial, claimed, change_date
+    FROM last_update AS lu
+    JOIN instance_history AS ih
+    ON ih.instance_serial=lu.instance_serial AND ih.change_date=last_updated
+    WHERE claimed=true
+    ORDER BY instance_serial, change_date DESC;
 
 COMMIT TRANSACTION;

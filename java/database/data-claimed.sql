@@ -1,0 +1,10 @@
+BEGIN TRANSACTION;
+
+INSERT INTO claimed (serial, user_id) VALUES
+('DDSMUL', 1),
+('D58XD6', 1),
+('EWTZA5', 1),
+('4CEAV7', 1),
+('TK99XE', 1);
+
+END TRANSACTION;
