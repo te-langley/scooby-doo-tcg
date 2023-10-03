@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 
--- Unlocks
+-- Unlocks (+10)
 INSERT INTO instance_history(
 	instance_serial, user_id, claimed, "timestamp")
 	VALUES
@@ -15,7 +15,7 @@ INSERT INTO instance_history(
 	('PAWH6M', 1, true, '2020-10-20 00:00:00'),
 	('34BJDK', 1, true, '2020-10-20 00:00:00');
 
--- Sacrificial unlocks
+-- Sacrificial unlocks (+10)
 INSERT INTO instance_history(
 	instance_serial, user_id, claimed, "timestamp")
 	VALUES
@@ -30,7 +30,7 @@ INSERT INTO instance_history(
     	('XHSTAA', 1, true, '2020-10-20 00:00:00'),
     	('PS8TZ7', 1, true, '2020-10-20 00:00:00');
 
--- Releasing sacrificial claims
+-- Releasing sacrificial claims (-10)
 INSERT INTO instance_history(
 	instance_serial, user_id, claimed, "timestamp")
 	VALUES
@@ -45,7 +45,7 @@ INSERT INTO instance_history(
     	('XHSTAA', 1, false, '2020-10-21 00:01:00'),
     	('PS8TZ7', 1, false, '2020-10-21 00:01:00');
 
--- Reclaiming a few sacrificial claims
+-- Reclaiming a few sacrificial claims (+2)
 INSERT INTO instance_history(
 	instance_serial, user_id, claimed, "timestamp")
 	VALUES
