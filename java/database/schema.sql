@@ -41,20 +41,20 @@ CREATE TABLE instance_history (
     instance_serial VARCHAR(6) REFERENCES instance (serial),
     user_id SERIAL REFERENCES users (user_id),
     claimed BOOLEAN NOT NULL,
-    change_date DATE DEFAULT CURRENT_DATE
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(0)
 );
 
-CREATE VIEW last_update AS
-    SELECT max(change_date) AS last_updated, instance_serial
+CREATE VIEW instance_history_last_update AS
+    SELECT max(timestamp) AS last_updated, instance_serial AS updated_instance
     FROM instance_history
     GROUP BY instance_serial;
 
 CREATE VIEW currently_claimed AS
-    SELECT ih.instance_serial, claimed, change_date
-    FROM last_update AS lu
+    SELECT ih.instance_serial, claimed, timestamp
+    FROM instance_history_last_update AS lu
     JOIN instance_history AS ih
-    ON ih.instance_serial=lu.instance_serial AND ih.change_date=last_updated
+    ON ih.instance_serial=lu.updated_instance AND ih.timestamp=last_updated
     WHERE claimed=true
-    ORDER BY instance_serial, change_date DESC;
+    ORDER BY instance_serial, timestamp DESC;
 
 COMMIT TRANSACTION;
