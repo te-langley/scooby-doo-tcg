@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,6 +20,10 @@ public abstract class BaseDaoTests {
     @After
     public void rollback() throws SQLException {
         dataSource.getConnection().rollback();
+    }
+
+    protected void notImplemented() {
+        Assert.fail("This test not yet implemented.");
     }
 
 }
