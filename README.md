@@ -1,9 +1,9 @@
 # Scooby Doo TCG
 
-> Welcome to Langley's Scooby Doo TCG repository!
+> Welcome to **Langley**'s Scooby Doo TCG repository!
 
 ## About
-First and foremost, this repository serves as my own personal playground for learning PostgreSQL, Java Spring, and Vue 2.
+First and foremost, this repository serves as my own personal playground for learning **PostgreSQL**, Java Spring, and Vue 2.
 
 The "Scooby Doo TCG" itself is intended to be a dupe of [the FiGPiN App](https://figpin.com/pages/the-all-new-figpin-app).  I was originally inspired to create this dupe after attempting the gain employment with FiGPiN in the Fall of 2022, to no avail.  Through my work on this project, I've learned a lot about full-stack app development and why they turned me down. 🙂
 
